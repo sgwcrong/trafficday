@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>교통데이 행사 예약폼 - 고급</title>
+    <!-- 부트스트랩 CSS 링크 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <style>
+        /* 기본 스타일 */
+        body {
+            background: linear-gradient(135deg, #f0f4f8, #e0e6ec);
+            padding: 20px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            overflow-x: hidden; /* 가로 스크롤 방지 */
+        }
+        .container {
+            max-width: 750px;
+            background-color: #ffffff;
+            padding: 45px 50px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            margin: 30px auto;
+            opacity: 0;
+            animation: fadeIn 0.8s ease-out forwards;
+            position: relative; /* 자식 요소의 애니메이션 기준점 */
+        }
+        h2 {
+            color: #2c3e50;
+            margin-bottom: 35px;
+            text-align: center;
+            font-weight: 700;
+            position: relative;
+        }
+        h2::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 4px;
+            background-color: #007bff;
+            margin: 15px auto 0;
+            border-radius: 2px;
+        }
+        .form-label {
+            font-weight: 600;
+            color: #34495e;
+            margin-bottom: 8px;
+        }
+        .form-control {
+            border-radius: 8px;
+            padding: 12px 15px;
+            border: 1px solid #ced4da;
+            transition: all 0.3s ease;
+        }
+        .form-control:focus {
+            border-color: #80bdff;
+            box-shadow: 0 0 0 0.25rem rgba(0, 123, 255, 0.25);
+            transform: translateY(-2px);
+        }
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+            width: 100%;
+            padding: 14px;
+            font-size: 1.2em;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 123, 255, 0.3);
+        }
+        .text-muted {
+            font-size: 0.85em;
+            color: #6c757d !important;
+        }
+
+        /* 메인 컨테이너 애니메이션 */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* 시간 입력 그룹 동적 표시 애니메이션 */
+        .time-input-group {
+            max-height: 0; /* 초기 높이 0 */
+            overflow: hidden; /* 내용 숨기기 */
+            transition: max-height 0.5s ease-out, opacity 0.5s ease-out; /* 부드럽게 나타나도록 */
+            opacity: 0; /* 초기 투명도 0 */
+        }
+        .time-input-group.show {
+            max-height: 200px; /* 충분히 큰 높이로 설정하여 내용이 다 보이게 */
+            opacity: 1; /* 투명도 1 */
+            margin-top: 15px; /* 나타날 때 위쪽 마진 주기 */
+            padding-bottom: 15px; /* 아래쪽 여백 주기 */
+            border-bottom: 1px solid #eee; /* 구분선 */
+        }
+        .time-input-group label { /* 그룹 내 라벨은 조금 다르게 */
+            margin-bottom: 10px;
+            display: block;
+            color: #555;
+            font-weight: 500;
+        }
+        .form-check {
+            padding-left: 2.25em; /* 체크박스 왼쪽 패딩 조정 */
+        }
+        .form-check-input[type="checkbox"] {
+            margin-left: -2.25em; /* 체크박스 위치 조정 */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>🚗 교통데이 행사 예약</h2>
+        <form id="reservationForm">
+            <div class="mb-3">
+                <label for="name" class="form-label">이름</label>
+                <input type="text" class="form-control" id="name" name="이름" placeholder="이름을 입력해주세요" required>
+            </div>
+            <div class="mb-3">
+                <label for="dob" class="form-label">생년월일</label>
+                <input type="date" class="form-control" id="dob" name="생년월일" required>
+            </div>
+            <div class="mb-3">
+                <label for="phone" class="form-label">전화번호</label>
+                <input type="tel" class="form-control" id="phone" name="전화번호" placeholder="예: 010-1234-5678" pattern="[0-9]{3}-[0-9]{3,4}-[0-9]{4}" required>
+                <small class="form-text text-muted">'-'를 포함하여 입력해주세요.</small>
+            </div>
+            <div class="mb-3">
+                <label for="companions" class="form-label">동행인 숫자 (본인 포함)</label>
+                <input type="number" class="form-control" id="companions" name="동행인숫자" min="1" value="1" required>
+            </div>
+
+            <!-- 방문 날짜 선택 및 동적 시간 입력 필드 -->
+            <div class="mb-4">
+                <label class="form-label">✨ 방문 희망 날짜 및 시간대를 선택해주세요.</label>
+                <p class="text-muted mb-3">최소 한 날짜를 선택해야 합니다.</p>
+
+                <div class="form-check mb-2">
+                    <input class="form-check-input date-selection-checkbox" type="checkbox" value="2025-10-25" id="date25" name="selectedDate_25" data-target="dateGroup25">
+                    <label class="form-check-label" for="date25">2025년 11월 1일 (토)</label>
+                </div>
+                <div id="dateGroup25" class="time-input-group">
+                    <label class="form-label">11월 1일 방문 시간대</label>
+                    <div class="row g-2">
+                        <div class="col-md-6">
+                            <label class="form-label">입장</label>
+                            <input type="time" class="form-control" id="startTime25" name="시작시간_25" placeholder="시작 시간">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">퇴장</label>
+                            <input type="time" class="form-control" id="endTime25" name="종료시간_25" placeholder="종료 시간">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-check mt-3 mb-2">
+                    <input class="form-check-input date-selection-checkbox" type="checkbox" value="2025-10-26" id="date26" name="selectedDate_26" data-target="dateGroup26">
+                    <label class="form-check-label" for="date26">2025년 11월 2일 (일)</label>
+                </div>
+                <div id="dateGroup26" class="time-input-group">
+                    <label class="form-label">11월 2일 방문 시간대</label>
+                    <div class="row g-2">
+                        <div class="col-md-6">
+                            <label class="form-label">입장</label>
+                            <input type="time" class="form-control" id="startTime26" name="시작시간_26" placeholder="시작 시간">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">퇴장</label>
+                            <input type="time" class="form-control" id="endTime26" name="종료시간_26" placeholder="종료 시간">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <label for="notes" class="form-label">기타 부탁사항 또는 질문</label>
+                <textarea class="form-control" id="notes" name="기타부탁사항" rows="4" placeholder="추가적으로 전달하고 싶은 내용이 있다면 남겨주세요."></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">예약하기</button>
+        </form>
+    </div>
+
+    <!-- 부트스트랩 JS 링크 -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const reservationForm = document.getElementById('reservationForm');
+            const dateCheckboxes = document.querySelectorAll('.date-selection-checkbox');
+
+            // 초기 상태 설정 및 체크박스 변경 이벤트 리스너 추가
+            dateCheckboxes.forEach(checkbox => {
+                const targetGroup = document.getElementById(checkbox.dataset.target);
+                const timeInputs = targetGroup.querySelectorAll('input[type="time"]');
+
+                // 초기에는 모든 시간 입력 그룹 숨김 및 필수 속성 제거
+                targetGroup.classList.remove('show');
+                timeInputs.forEach(input => input.removeAttribute('required'));
+
+                checkbox.addEventListener('change', function() {
+                    if (this.checked) {
+                        targetGroup.classList.add('show');
+                        timeInputs.forEach(input => input.setAttribute('required', 'required'));
+                    } else {
+                        targetGroup.classList.remove('show');
+                        timeInputs.forEach(input => {
+                            input.removeAttribute('required');
+                            input.value = ''; // 체크 해제 시 값 초기화
+                        });
+                    }
+                });
+            });
+
+            reservationForm.addEventListener('submit', function(event) {
+                event.preventDefault(); // 폼 제출 시 기본 동작 막기
+
+                const selectedDatesCount = document.querySelectorAll('.date-selection-checkbox:checked').length;
+                if (selectedDatesCount === 0) {
+                    alert('방문 희망 날짜를 최소 하나 선택해주세요!');
+                    return; // 제출 중단
+                }
+
+                const form = event.target;
+                const formData = new FormData(form);
+
+                // 🔥 주인님! 여기에 복사한 구글 앱스 스크립트 웹 앱 URL을 붙여넣어 주세요! 🔥
+                const webAppUrl = 'https://script.google.com/macros/s/AKfycbyW1jmdDeCnIRuVpk1_IwVHASaMan6DloX2OG8r9ulpI5uZSHEbubUPlBrv9gX1F9RJ/exec';
+
+                fetch(webAppUrl, {
+                    method: 'POST',
+                    body: formData // FormData 객체를 그대로 보내면 구글 앱스 스크립트에서 e.parameter로 잘 받아줘요!
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+                    const contentType = response.headers.get("content-type");
+                    if (contentType && contentType.indexOf("application/json") !== -1) {
+                        return response.json();
+                    } else {
+                        return response.text().then(text => { throw new Error(`Not JSON response: ${text}`); });
+                    }
+                })
+                .then(data => {
+                    if (data.status === 'success') {
+                        alert('예약이 완료되었습니다! 교통데이 행사에서 만나요.ㅎㅎ');
+                        form.reset(); // 폼 초기화
+                        // 숨겨진 시간 입력 필드들도 초기화 및 숨김 상태로 되돌리기
+                        dateCheckboxes.forEach(checkbox => {
+                            const targetGroup = document.getElementById(checkbox.dataset.target);
+                            const timeInputs = targetGroup.querySelectorAll('input[type="time"]');
+                            checkbox.checked = false; // 체크박스 해제
+                            targetGroup.classList.remove('show'); // 시간 입력 그룹 숨김
+                            timeInputs.forEach(input => {
+                                input.removeAttribute('required');
+                                input.value = '';
+                            });
+                        });
+                    } else {
+                        alert(`예약 실패: ${data.message || '알 수 없는 오류가 발생했어요. 다시 시도해주세요.'}`);
+                    }
+                })
+                .catch(error => {
+                    console.error('예약 요청 중 오류 발생:', error);
+                    alert('예약 중 문제가 발생했습니다. 네트워크 연결을 확인하거나 잠시 후 다시 시도해주세요.ㅠㅠ');
+                });
+            });
+        });
+    </script>
+</body>
+</html>

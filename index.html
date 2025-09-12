@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>교통-DAY:희망이 함께 하는 교통</title>
+    <!-- 부트스트랩 CSS 링크 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <style>
+        /* 히어로 섹션 스타일 추가 */
+        .hero-section {
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://lh7-rt.googleusercontent.com/sitesz/AClOY7psopnRKkd3uLPKAGbP8pGjvEJ8VTpAv_CIR88T0Rp1xPgxIZ1NVS2daHKODDV22vvdpjKaYrMaDIC0hQzcRVGEMOsAELcstgpRwekJni1v8-9Trnb2wHk941ZwdO8fd0whMhTkV8d4JOJSfjdfoHwPESpTFthtaLAboRukXDd0OMjsmJdR?key=uirEmwnuEYp_BI7VfdTUtw') no-repeat center center;
+            /* 위 이미지 URL을 주인님이 원하는 멋진 이미지로 변경해주세요! */
+            background-size: cover;
+            color: white;
+            padding: 100px 0; /* 상하 패딩 */
+            text-align: center;
+        }
+        .hero-section h1 {
+            font-size: 3.5rem; /* 제목 크기 */
+            margin-bottom: 20px;
+        }
+        .hero-section p {
+            font-size: 1.25rem; /* 문단 크기 */
+            margin-bottom: 40px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .hero-section .btn {
+            font-size: 1.5rem; /* 버튼 크기 */
+            padding: 15px 30px;
+            border-radius: 50px; /* 버튼 모서리 둥글게 */
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">교통-DAY</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">홈</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="소개.html">소개</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            방문예약하기
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="부산발할로윈행방문예약폼.html">부산발 할로윈행</a></li>
+                            <li><a class="dropdown-item" href="#">산타 diving 부산교통</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#">기타 서비스</a></li>
+                        </ul>
+                    </li>
+                     <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            서비스
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="#">서비스 1</a></li>
+                            <li><a class="dropdown-item" href="#">서비스 2</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#">기타 서비스</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <form class="d-flex" role="search">
+                    <input class="form-control me-2" type="search" placeholder="검색" aria-label="Search">
+                    <button class="btn btn-outline-success" type="submit">검색</button>
+                </form>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 히어로 섹션 시작 -->
+    <header class="hero-section">
+        <div class="container">
+            <h1 class="display-3">11월 1~2일 교통과 할로윈이 만났다!</h1>
+            <p class="lead">
+                지금 당장 무료 방문 예약하세요!
+            </p>
+            <a href="부산발할로윈행방문예약폼.html" class="btn btn-primary btn-lg">지금 예약하기</a>
+            <!-- CTA 버튼 -->
+        </div>
+    </header>
+    <!-- 히어로 섹션 끝 -->
+
+    <div class="container mt-5">
+        <h2>여기에 다른 섹션 내용이 이어집니다.</h2>
+        <p>히어로 섹션이 잘 구현되었는지 확인해보세요!</p>
+        <p>이어서 웹사이트의 다양한 정보나 기능을 추가할 수 있습니다.</p>
+    </div>
+
+    <!-- 부트스트랩 JS 링크 (</body> 태그 직전에 위치하는 것이 좋아요!) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+</body>
+</html>
