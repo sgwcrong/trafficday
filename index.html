@@ -4,156 +4,64 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>교통-DAY: 교통덕후들을 위한 행사</title>
-    <!-- 부트스트랩 CSS 링크 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-    <!-- Bootstrap Icons (아이콘 사용을 위해 추가) -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <!-- 커스텀 CSS (기존 스타일 유지 및 행사 분위기 추가) -->
     <style>
-        /* 히어로 섹션 스타일 */
-        .hero-section {
-            /* 교통-DAY 분위기에 맞게 배경 이미지를 교통 관련 이미지로 변경해주세요! */
-            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://via.placeholder.com/1920x1080/4682B4/FFFFFF?text=Traffic-DAY+Event') no-repeat center center;
-            background-size: cover;
-            background-position: center;
-            color: white;
-            padding: 120px 0; /* 패딩 좀 더 늘려서 웅장하게 */
-            text-align: center;
-        }
-        .hero-section h1 {
-            font-size: 4.5rem; /* 제목 크게 */
-            margin-bottom: 25px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.7); /* 제목 그림자 */
-        }
-        .hero-section p {
-            font-size: 1.5rem; /* 문구도 크게 */
-            margin-bottom: 50px;
-            max-width: 900px;
-            margin-left: auto;
-            margin-right: auto;
-            text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
-        }
-        .hero-section .btn {
-            font-size: 1.8rem; /* 버튼 더 크게 */
-            padding: 18px 35px;
-            border-radius: 50px;
-            transition: all 0.3s ease; /* 호버 효과 */
-        }
-        .hero-section .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-        }
-
-        /* 공통 섹션 패딩 */
-        .section-padding {
-            padding: 80px 0;
-        }
-        /* 이벤트 소개 섹션 */
-        .event-intro {
-            background-color: #f8f9fa;
-        }
-        /* 주요 프로그램 섹션 */
-        .program-card {
-            border: none;
-            box-shadow: 0 0 20px rgba(0,0,0,0.05);
-            transition: all 0.3s ease;
-        }
-        .program-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 0 25px rgba(0,0,0,0.1);
-        }
-        .program-card .card-icon {
-            font-size: 3rem;
-            color: #007bff;
-            margin-bottom: 15px;
-        }
-        /* 참여 안내 섹션 */
-        .cta-section {
-            background-color: #007bff;
-            color: white;
-            padding: 100px 0;
-            text-align: center;
-        }
-        .cta-section h2 {
-            font-size: 3rem;
-            margin-bottom: 30px;
-        }
-        .cta-section .btn {
-            font-size: 1.5rem;
-            padding: 15px 40px;
-            border-radius: 30px;
-            background-color: white;
-            color: #007bff;
-            border: none;
-        }
-        .cta-section .btn:hover {
-            background-color: #e2e6ea;
-        }
-
-        /* 푸터 */
-        footer {
-            padding: 40px 0;
-            background-color: #343a40;
-            color: #adb5bd;
-            text-align: center;
-            font-size: 0.9rem;
-        }
-        footer a {
-            color: #adb5bd;
-            text-decoration: none;
-        }
-        footer a:hover {
-            color: white;
-        }
-    </style></head>
+        .hero-section { background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://via.placeholder.com/1920x1080/4682B4/FFFFFF?text=Traffic-DAY+Event') no-repeat center center; background-size: cover; background-position: center; color: white; padding: 120px 0; text-align: center; }
+        .hero-section h1 { font-size: 4.5rem; margin-bottom: 25px; text-shadow: 2px 2px 4px rgba(0,0,0,0.7); }
+        .hero-section p { font-size: 1.5rem; margin-bottom: 50px; max-width: 900px; margin-left: auto; margin-right: auto; text-shadow: 1px 1px 3px rgba(0,0,0,0.5); }
+        .hero-section .btn { font-size: 1.8rem; padding: 18px 35px; border-radius: 50px; transition: all 0.3s ease; }
+        .hero-section .btn:hover { transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
+        .section-padding { padding: 80px 0; }
+        .event-intro { background-color: #f8f9fa; }
+        .program-card { border: none; box-shadow: 0 0 20px rgba(0,0,0,0.05); transition: all 0.3s ease; }
+        .program-card:hover { transform: translateY(-5px); box-shadow: 0 0 25px rgba(0,0,0,0.1); }
+        .program-card .card-icon { font-size: 3rem; color: #007bff; margin-bottom: 15px; }
+        .cta-section { background-color: #007bff; color: white; padding: 100px 0; text-align: center; }
+        .cta-section h2 { font-size: 3rem; margin-bottom: 30px; }
+        .cta-section .btn { font-size: 1.5rem; padding: 15px 40px; border-radius: 30px; background-color: white; color: #007bff; border: none; }
+        .cta-section .btn:hover { background-color: #e2e6ea; }
+        footer { padding: 40px 0; background-color: #343a40; color: #adb5bd; text-align: center; font-size: 0.9rem; }
+        footer a { color: #adb5bd; text-decoration: none; }
+        footer a:hover { color: white; }
+    </style>
+</head>
 <body>
-    <!-- 깃허브 코드 내용에서 최대한 바꾸지 않기 위해, 스크립트 위치만 옮겼습니다 -->
+    <!-- 공통 스크립트 (APPS_SCRIPT_API_URL 설정 및 navigateTo, callAppsScript 함수 포함) -->
     <script>
-      // **여기에 위에서 복사한 배포된 Apps Script 웹 앱의 "/exec" URL을 붙여넣으세요!**
-      const APPS_SCRIPT_API_URL = 'https://script.google.com/macros/s/AKfycbygkULD-hX5Yf7IB9DNhm1nvhHnxPv6a4vZe1fm7Y9Ehi1MVs416BO70PHAVgPjqAA8/exec'; // 예: 'https://script.google.com/macros/s/AKfyc.../exec'
-
-      function navigateTo(page, params = '') {
-          let url = 'https://sgwcrong.github.io/trafficday/'; 
+      const APPS_SCRIPT_API_URL = 'https://script.google.com/macros/s/AKfycbxE3u9aSh1N2GeOLnQ6r2zaXK3cs5Q9Kpdp7uMifC6Q-NW916S9nV9Yp54GLLrK5hEx/exec'; // <<<--- 중요! 실제 URL로 변경 필수!
+      function navigateTo(page, params = '') { /* ... 공통 스크립트 내용 ... */
+          let url = 'http://trafficday.kro.kr/'; 
           switch (page) {
-              case 'index':
-                  url += 'index.html';
-                  break;
-              case 'about':
-                  url += 'about.html';
-                  break;
-              case 'login_signup':
-                  url += 'login_signup.html';
-                  break;
-              case 'mypage':
-                  url += 'mypage.html';
-                  break;
-              case 'admin':
-                  url += 'admin.html';
-                  break;
-              default:
-                  console.error('알 수 없는 페이지:', page);
-                  return;
+              case 'index': url += 'index.html'; break;
+              case 'about': url += 'about.html'; break;
+              case 'lookup': url += 'lookup.html'; break;
+              case 'mypage': url += 'mypage.html'; break;
+              default: console.error('클라이언트: 알 수 없는 페이지 요청 -', page); return;
           }
-          if (params) {
-              url += '?' + params; 
-          }
+          if (params) { url += '?' + params; }
           window.location.href = url;
       }
-
-      async function callAppsScript(functionName, data = {}) {
+      async function callAppsScript(functionName, data = {}) { /* ... 공통 스크립트 내용 ... */
           try {
               const response = await fetch(APPS_SCRIPT_API_URL, {
                   method: 'POST',
                   headers: { 'Content-Type': 'application/json' },
-                  body: JSON.stringify({ functionName, data })
+                  body: JSON.stringify({ functionName, data }) 
               });
-              return await response.json();
+              if (!response.ok) { 
+                  const errorBody = await response.text(); 
+                  console.error('클라이언트: HTTP Error response body:', errorBody);
+                  throw new Error(`HTTP 통신 실패: ${response.status} ${response.statusText}. 서버 응답: ${errorBody}`);
+              }
+              return await response.json(); 
           } catch (error) {
-              console.error('Apps Script API 호출 중 오류 발생:', error);
-              throw new Error('서버와 통신하는 중 오류가 발생했습니다. (' + error.message + ')');
+              console.error('클라이언트: Apps Script API 호출 중 치명적 오류 발생:', error);
+              throw new Error('네트워크 또는 클라이언트 측 오류: ' + error.message);
           }
       }
     </script>
+
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
         <div class="container-fluid">
             <a class="navbar-brand" href="javascript:void(0)" onclick="navigateTo('index')">교통-DAY</a>
@@ -173,7 +81,6 @@
                             행사 정보
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <!-- 드롭다운 메뉴 내 섹션 이동은 #앵커 방식 유지 -->
                             <li><a class="dropdown-item" href="#program">주요 프로그램</a></li> 
                             <li><a class="dropdown-item" href="#location">장소 및 시간</a></li>
                             <li><hr class="dropdown-divider"></li>
@@ -185,10 +92,9 @@
                     </li>
                 </ul>
                 <div class="d-flex" id="authButtons">
-                    <button id="loginBtn" class="btn btn-outline-light me-2" onclick="navigateTo('login_signup')">로그인</button>
-                    <button id="signupBtn" class="btn btn-primary" onclick="navigateTo('login_signup', 'tab=register')">회원가입</button>
-                    <button id="mypageBtn" class="btn btn-outline-light me-2 d-none" onclick="navigateTo('mypage')">마이페이지</button>
-                    <button id="logoutBtn" class="btn btn-danger d-none">로그아웃</button>
+                    <button id="lookupBtn" class="btn btn-outline-light me-2" onclick="navigateTo('lookup')">조회하기</button>
+                    <button id="mypageBtn" class="btn btn-outline-light me-2 d-none" onclick="navigateTo('mypage')">나의 정보</button>
+                    <button id="logoutBtn" class="btn btn-danger d-none">조회해제</button>
                 </div>
             </div>
         </div>
@@ -201,7 +107,7 @@
                 기차, 버스, 지하철... 이 모든 것을 사랑하는 당신을 위한 단 하루의 특별한 행사!
                 다양한 체험과 정보, 그리고 교통덕후 친구들을 만나보세요!
             </p>
-            <a href="javascript:void(0)" onclick="navigateTo('login_signup', 'tab=register')" class="btn btn-primary btn-lg">지금 바로 참여하기</a>
+            <a href="javascript:void(0)" onclick="navigateTo('lookup')" class="btn btn-primary btn-lg">지금 바로 조회하기</a>
         </div>
     </header>
 
@@ -261,7 +167,7 @@
                 </div>
             </div>
             <div class="text-center mt-4">
-                <a href="#" class="btn btn-info btn-lg">모든 프로그램 확인하기</a> <!-- 이 링크는 일단 # 유지 -->
+                <a href="#" class="btn btn-info btn-lg">모든 프로그램 확인하기</a> 
             </div>
         </div>
     </section>
@@ -270,7 +176,7 @@
         <div class="container">
             <h2>지금 바로 교통-DAY에 참여하세요!</h2>
             <p>교통을 사랑하는 당신에게 잊지 못할 경험을 선사할 거예요.</p>
-            <a href="javascript:void(0)" onclick="navigateTo('login_signup', 'tab=register')" class="btn btn-light btn-lg mt-3">무료 회원가입 및 예약 <i class="bi bi-chevron-right"></i></a>
+            <a href="javascript:void(0)" onclick="navigateTo('lookup')" class="btn btn-light btn-lg mt-3">무료 조회하기 <i class="bi bi-chevron-right"></i></a>
         </div>
     </section>
 
@@ -285,54 +191,46 @@
         </div>
     </footer>
 
-    <!-- 부트스트랩 JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
     <script>
-        // updateAuthButtons 함수 정의
         function updateAuthButtons() {
-            const loggedInUserId = localStorage.getItem('loggedInUserId');
-            
-            const loginBtn = document.getElementById('loginBtn');
-            const signupBtn = document.getElementById('signupBtn');
+            const hasLookedUp = localStorage.getItem('userLookedUp'); // 'yes' or null
+            const lookupBtn = document.getElementById('lookupBtn');
             const mypageBtn = document.getElementById('mypageBtn');
             const logoutBtn = document.getElementById('logoutBtn');
 
-            if (loginBtn && signupBtn && mypageBtn && logoutBtn) {
-                if (loggedInUserId) { 
-                    loginBtn.classList.add('d-none');
-                    signupBtn.classList.add('d-none');
+            if (lookupBtn && mypageBtn && logoutBtn) { // 버튼 요소가 존재하는지 확인
+                if (hasLookedUp === 'yes') { 
+                    lookupBtn.classList.add('d-none');
                     mypageBtn.classList.remove('d-none');
                     logoutBtn.classList.remove('d-none');
                 } else { 
-                    loginBtn.classList.remove('d-none');
-                    signupBtn.classList.remove('d-none');
+                    lookupBtn.classList.remove('d-none');
                     mypageBtn.classList.add('d-none');
                     logoutBtn.classList.add('d-none');
                 }
             } else {
-                console.error("인증 관련 버튼 요소를 찾을 수 없습니다.");
+                console.error("인증 관련 버튼 요소를 찾을 수 없습니다. (index.html)");
             }
         }
         
-        // DOMContentLoaded 이벤트 리스너: 페이지 로드 후 실행
         document.addEventListener('DOMContentLoaded', function() {
-            updateAuthButtons(); // 초기 로그인 상태에 따라 버튼 업데이트
+            updateAuthButtons();
 
-            // 로그아웃 버튼 이벤트 리스너 추가
             const logoutBtnElement = document.getElementById('logoutBtn');
             if (logoutBtnElement) { 
                 logoutBtnElement.addEventListener('click', function() {
-                    localStorage.removeItem('loggedInUserId'); 
-                    localStorage.removeItem('loggedInUserNickname'); 
-                    localStorage.removeItem('loggedInUserAdminStatus');
-                    alert('로그아웃 되었습니다.');
-                    navigateTo('index'); // 로그아웃 후 홈으로 이동
+                    localStorage.removeItem('userLookedUp'); 
+                    localStorage.removeItem('userLookupId'); 
+                    localStorage.removeItem('userLookupPersonalCode'); 
+                    localStorage.removeItem('userLookupName'); 
+                    localStorage.removeItem('userLookupPoints'); 
+                    localStorage.removeItem('userLookupCoins');
+                    alert('조회 상태가 해제되었습니다. 다시 정보를 조회해주세요.');
+                    navigateTo('index');
                 });
             }
         });
     </script>
 </body>
 </html>
-
-
-
