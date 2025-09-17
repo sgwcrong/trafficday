@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>주인님 마이페이지</title>
+    <!-- 부트스트랩 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <!-- Bootstrap Icons (아이콘 사용을 위해 추가) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            min-height: 100vh;
+        }
+        .container {
+            margin-top: 30px;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #333;
+        }
+        #qrcode {
+            width: 200px;
+            height: 200px;
+            margin: 20px auto;
+            border: 1px solid #eee;
+            padding: 10px;
+            background-color: white; /* QR 코드 배경 하얗게 */
+        }
+        .info-card {
+            background-color: #f1f7fe;
+            border-left: 5px solid #007bff;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+        }
+        .list-group-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .exchange-box {
+            background-color: #e2f0fe;
+            border: 1px solid #007bff;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="index.html">주인님네 웹사이트</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">홈</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="about.html">소개</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            서비스
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="#">서비스 1</a></li>
+                            <li><a class="dropdown-item" href="#">서비스 2</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#">기타 서비스</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="mypage.html">마이페이지</a>
+                    </li>
+                </ul>
+                <div class="d-flex" id="authButtons">
+                    <!-- 마이페이지, 로그아웃 버튼 -->
+                    <button id="adminBtn" class="btn btn-warning me-2 d-none">관리자 기능</button> <!-- 관리자 전용 버튼 -->
+                    <button id="logoutBtn" class="btn btn-danger">로그아웃</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h2 class="mb-4"><span id="userNickname">로딩 중...</span>님의 마이페이지</h2>
+        <div class="row">
+            <div class="col-md-6 mb-4">
+                <div class="info-card">
+                    <h4><i class="bi bi-star-fill"></i> 보유 트래픽 포인트</h4>
+                    <p class="display-6"><span id="userPoints">0</span> P</p>
+                </div>
+                <div class="info-card">
+                    <h4><i class="bi bi-cash-coin"></i> 보유 트래픽 코인</h4>
+                    <p class="display-6"><span id="userCoins">0</span> 개</p>
+                </div>
+                <div class="info-card">
+                    <h4><i class="bi bi-qr-code"></i> 트래픽 포인트 코드 (14자리)</h4>
+                    <p class="fs-4 fw-bold"><span id="userPointCode">코드 불러오는 중...</span></p>
+                    <div id="qrcode"></div> <!-- QR 코드가 여기에 생성됩니다 -->
+                </div>
+            </div>
+            <div class="col-md-6 mb-4">
+                <div class="info-card exchange-box">
+                    <h4><i class="bi bi-arrow-left-right"></i> 포인트 ↔ 코인 교환</h4>
+                    <p class="small text-muted">5000P 이상부터 교환 가능하며, 10P당 5코인으로, 10P 단위로만 교환할 수 있습니다.</p>
+                    <div class="input-group mb-3">
+                        <input type="number" class="form-control" id="exchangeAmount" min="10" step="10" placeholder="교환할 포인트 (10P 단위)">
+                        <button class="btn btn-primary" type="button" id="exchangeButton">코인으로 교환</button>
+                    </div>
+                </div>
+
+                <div class="info-card mt-4">
+                    <h4><i class="bi bi-ticket-fill"></i> 보유 쿠폰</h4>
+                    <ul class="list-group list-group-flush" id="userCoupons">
+                        <li class="list-group-item">쿠폰 불러오는 중...</li>
+                    </ul>
+                </div>
+                <div class="info-card">
+                    <h4><i class="bi bi-calendar-event"></i> 행사 방문 예약 목록</h4>
+                    <ul class="list-group list-group-flush" id="userReservations">
+                        <li class="list-group-item">예약 목록 불러오는 중...</li>
+                    </ul>
+                </div>
+                <div class="info-card">
+                    <h4><i class="bi bi-collection"></i> 보유 티켓 목록</h4>
+                    <ul class="list-group list-group-flush" id="userTickets">
+                        <li class="list-group-item">티켓 목록 불러오는 중...</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 부트스트랩 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+    <!-- qrcode.js 라이브러리 스크립트 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+    <script>
+        // 로그인 상태 확인 함수
+        function checkLoginStatus() {
+            const loggedInUserId = localStorage.getItem('loggedInUserId');
+            if (!loggedInUserId) {
+                alert('로그인이 필요합니다.');
+                window.location.href = 'login_signup.html';
+                return null;
+            }
+            return loggedInUserId;
+        }
+
+        // 마이페이지 데이터 로드
+        document.addEventListener('DOMContentLoaded', function() {
+            const userId = checkLoginStatus();
+            if (!userId) return;
+
+            const userNickname = localStorage.getItem('loggedInUserNickname');
+            const adminStatus = localStorage.getItem('loggedInUserAdminStatus');
+
+            document.getElementById('userNickname').textContent = userNickname || '사용자';
+
+            // 관리자 버튼 표시 여부
+            if (adminStatus === 'Yes') {
+                document.getElementById('adminBtn').classList.remove('d-none');
+                document.getElementById('adminBtn').addEventListener('click', function() {
+                    window.location.href = 'admin.html';
+                });
+            }
+
+            // 로그아웃 버튼 이벤트 리스너
+            document.getElementById('logoutBtn').addEventListener('click', function() {
+                localStorage.removeItem('loggedInUserId');
+                localStorage.removeItem('loggedInUserNickname');
+                localStorage.removeItem('loggedInUserAdminStatus');
+                alert('로그아웃 되었습니다.');
+                window.location.href = 'index.html'; // 홈으로 리디렉션
+            });
+            
+            // Apps Script에서 사용자 정보 불러오기
+            google.script.run
+                .withSuccessHandler(function(response) {
+                    if (response.success) {
+                        const userData = response.user;
+                        document.getElementById('userPoints').textContent = userData.points;
+                        document.getElementById('userCoins').textContent = userData.coins; // 코인 표시
+                        document.getElementById('userPointCode').textContent = userData.pointCode;
+
+                        // QR 코드 생성
+                        // QR 코드 내용: 아이디:포인트코드 (관리자 QR 인식에 사용)
+                        const qrContent = `${userData.id}:${userData.pointCode}`;
+                        new QRCode(document.getElementById('qrcode'), {
+                            text: qrContent,
+                            width: 200,
+                            height: 200,
+                            colorDark : "#000000",
+                            colorLight : "#ffffff",
+                            correctLevel : QRCode.CorrectLevel.H
+                        });
+
+                        // 목록들 표시 (간단한 예시, 실제로는 더 복잡한 데이터 구조일 수 있음)
+                        function renderList(elementId, dataString) {
+                            const ul = document.getElementById(elementId);
+                            ul.innerHTML = ''; // 기존 내용 지우기
+                            if (dataString && dataString.trim() !== '' && dataString !== '보유 쿠폰 없음' && dataString !== '예약 없음' && dataString !== '티켓 없음') {
+                                dataString.split(',').forEach(item => {
+                                    const li = document.createElement('li');
+                                    li.className = 'list-group-item';
+                                    li.textContent = item.trim();
+                                    ul.appendChild(li);
+                                });
+                            } else {
+                                const li = document.createElement('li');
+                                li.className = 'list-group-item text-muted';
+                                li.textContent = `현재 ${elementId === 'userCoupons' ? '쿠폰' : elementId === 'userReservations' ? '예약' : '티켓'}이 없습니다.`;
+                                ul.appendChild(li);
+                            }
+                        }
+                        renderList('userCoupons', userData.coupons);
+                        renderList('userReservations', userData.reservations);
+                        renderList('userTickets', userData.tickets);
+
+                    } else {
+                        alert('사용자 정보 로드 실패: ' + response.message);
+                        window.location.href = 'index.html'; // 실패 시 홈으로
+                    }
+                })
+                .withFailureHandler(function(error) {
+                    alert('서버 오류 발생: ' + error.message);
+                    window.location.href = 'index.html'; // 실패 시 홈으로
+                })
+                .getUserData(userId);
+
+            // 포인트 코인 교환 버튼 이벤트 리스너
+            document.getElementById('exchangeButton').addEventListener('click', function() {
+                const exchangeAmount = parseInt(document.getElementById('exchangeAmount').value);
+                if (isNaN(exchangeAmount) || exchangeAmount <= 0) {
+                    alert('유효한 포인트를 입력해주세요.');
+                    return;
+                }
+                if (exchangeAmount % 10 !== 0) {
+                    alert('10 포인트 단위로만 교환할 수 있습니다.');
+                    return;
+                }
+
+                google.script.run
+                    .withSuccessHandler(function(response) {
+                        if (response.success) {
+                            alert(response.message);
+                            document.getElementById('userPoints').textContent = response.newPoints;
+                            document.getElementById('userCoins').textContent = response.newCoins;
+                            document.getElementById('exchangeAmount').value = ''; // 입력 필드 초기화
+                        } else {
+                            alert('포인트 교환 실패: ' + response.message);
+                        }
+                    })
+                    .withFailureHandler(function(error) {
+                        alert('포인트 교환 중 서버 오류 발생: ' + error.message);
+                    })
+                    .exchangePointsToCoins(userId, exchangeAmount);
+            });
+        });
+    </script>
+</body>
+</html>
