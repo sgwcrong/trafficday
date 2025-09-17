@@ -3,40 +3,112 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="naver-site-verification" content="71f5d81a05ea97228cc6f83b451e591d912caed5" />
-    <title>교통-DAY:희망이 함께 하는 교통</title>
+    <title>교통-DAY: 교통덕후들을 위한 행사</title>
     <!-- 부트스트랩 CSS 링크 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <!-- Bootstrap Icons (아이콘 사용을 위해 추가) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- 커스텀 CSS (기존 스타일 유지 및 행사 분위기 추가) -->
     <style>
-        /* 히어로 섹션 스타일 추가 */
+        /* 히어로 섹션 스타일 */
         .hero-section {
-            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://lh7-rt.googleusercontent.com/sitesz/AClOY7psopnRKkd3uLPKAGbP8pGjvEJ8VTpAv_CIR88T0Rp1xPgxIZ1NVS2daHKODDV22vvdpjKaYrMaDIC0hQzcRVGEMOsAELcstgpRwekJni1v8-9Trnb2wHk941ZwdO8fd0whMhTkV8d4JOJSfjdfoHwPESpTFthtaLAboRukXDd0OMjsmJdR?key=uirEmwnuEYp_BI7VfdTUtw') no-repeat center center;
-            /* 위 이미지 URL을 주인님이 원하는 멋진 이미지로 변경해주세요! */
+            /* 교통-DAY 분위기에 맞게 배경 이미지를 교통 관련 이미지로 변경해주세요! */
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://via.placeholder.com/1920x1080/4682B4/FFFFFF?text=Traffic-DAY+Event') no-repeat center center;
             background-size: cover;
+            background-position: center;
             color: white;
-            padding: 100px 0; /* 상하 패딩 */
+            padding: 120px 0; /* 패딩 좀 더 늘려서 웅장하게 */
             text-align: center;
         }
         .hero-section h1 {
-            font-size: 3.5rem; /* 제목 크기 */
-            margin-bottom: 20px;
+            font-size: 4.5rem; /* 제목 크게 */
+            margin-bottom: 25px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.7); /* 제목 그림자 */
         }
         .hero-section p {
-            font-size: 1.25rem; /* 문단 크기 */
-            margin-bottom: 40px;
-            max-width: 800px;
+            font-size: 1.5rem; /* 문구도 크게 */
+            margin-bottom: 50px;
+            max-width: 900px;
             margin-left: auto;
             margin-right: auto;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
         }
         .hero-section .btn {
-            font-size: 1.5rem; /* 버튼 크기 */
-            padding: 15px 30px;
-            border-radius: 50px; /* 버튼 모서리 둥글게 */
+            font-size: 1.8rem; /* 버튼 더 크게 */
+            padding: 18px 35px;
+            border-radius: 50px;
+            transition: all 0.3s ease; /* 호버 효과 */
+        }
+        .hero-section .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        /* 공통 섹션 패딩 */
+        .section-padding {
+            padding: 80px 0;
+        }
+        /* 이벤트 소개 섹션 */
+        .event-intro {
+            background-color: #f8f9fa;
+        }
+        /* 주요 프로그램 섹션 */
+        .program-card {
+            border: none;
+            box-shadow: 0 0 20px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+        }
+        .program-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 25px rgba(0,0,0,0.1);
+        }
+        .program-card .card-icon {
+            font-size: 3rem;
+            color: #007bff;
+            margin-bottom: 15px;
+        }
+        /* 참여 안내 섹션 */
+        .cta-section {
+            background-color: #007bff;
+            color: white;
+            padding: 100px 0;
+            text-align: center;
+        }
+        .cta-section h2 {
+            font-size: 3rem;
+            margin-bottom: 30px;
+        }
+        .cta-section .btn {
+            font-size: 1.5rem;
+            padding: 15px 40px;
+            border-radius: 30px;
+            background-color: white;
+            color: #007bff;
+            border: none;
+        }
+        .cta-section .btn:hover {
+            background-color: #e2e6ea;
+        }
+
+        /* 푸터 */
+        footer {
+            padding: 40px 0;
+            background-color: #343a40;
+            color: #adb5bd;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+        footer a {
+            color: #adb5bd;
+            text-decoration: none;
+        }
+        footer a:hover {
+            color: white;
         }
     </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
         <div class="container-fluid">
             <a class="navbar-brand" href="index.html">교통-DAY</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -45,68 +117,192 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link" href="소개.html">소개</a>
+                        <a class="nav-link active" aria-current="page" href="index.html">홈</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="about.html">소개</a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            방문예약하기
+                            행사 정보
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="부산발할로윈행방문예약폼.html">부산발 할로윈행</a></li>
-                            <li><a class="dropdown-item" href="#">산타 diving 부산교통</a></li>
+                            <li><a class="dropdown-item" href="#program">주요 프로그램</a></li>
+                            <li><a class="dropdown-item" href="#location">장소 및 시간</a></li>
                             <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="#">기타 서비스</a></li>
-                        </ul>
-                    </li>
-                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            서비스
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="#">서비스 1</a></li>
-                            <li><a class="dropdown-item" href="#">서비스 2</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="#">기타 서비스</a></li>
+                            <li><a class="dropdown-item" href="#">교통-DAY 웹툰</a></li>
                         </ul>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="http://kbob.kro.kr/">급식줄알리미</a>
+                        <a class="nav-link" href="#">커뮤니티</a>
                     </li>
                 </ul>
-                
-                <form class="d-flex" role="search">
-                    <input class="form-control me-2" type="search" placeholder="검색" aria-label="Search">
-                    <button class="btn btn-outline-success" type="submit">검색</button>
-                </form>
+                <div class="d-flex" id="authButtons">
+                    <!-- 로그인 상태에 따라 버튼이 여기에 동적으로 추가/제거됩니다. -->
+                    <!-- 로그인, 회원가입 버튼 -->
+                    <button id="loginBtn" class="btn btn-outline-light me-2">로그인</button>
+                    <button id="signupBtn" class="btn btn-primary">회원가입</button>
+                    <!-- 마이페이지, 로그아웃 버튼 (숨겨져 있다가 로그인 시 나타남) -->
+                    <button id="mypageBtn" class="btn btn-outline-light me-2 d-none">마이페이지</button>
+                    <button id="logoutBtn" class="btn btn-danger d-none">로그아웃</button>
+                </div>
             </div>
         </div>
     </nav>
 
-    <!-- 히어로 섹션 시작 -->
+    <!-- 히어로 섹션: 교통-DAY 행사 소개 -->
     <header class="hero-section">
         <div class="container">
-            <h1 class="display-3">11월 1~2일 교통과 할로윈이 만났다!</h1>
+            <h1 class="display-3">교통-DAY: 교통덕후들을 위한 성대한 축제!</h1>
             <p class="lead">
-                지금 당장 무료 방문 예약하세요!
+                기차, 버스, 지하철... 이 모든 것을 사랑하는 당신을 위한 단 하루의 특별한 행사!
+                다양한 체험과 정보, 그리고 교통덕후 친구들을 만나보세요!
             </p>
-            <a href="부산발할로윈행방문예약폼.html" class="btn btn-primary btn-lg">지금 예약하기</a>
-            <!-- CTA 버튼 -->
+            <a href="login_signup.html?tab=register" class="btn btn-primary btn-lg">지금 바로 참여하기</a>
         </div>
     </header>
-    <!-- 히어로 섹션 끝 -->
 
-    <div class="container mt-5">
-        <h2>여기에 다른 섹션 내용이 이어집니다.</h2>
-        <p>히어로 섹션이 잘 구현되었는지 확인해보세요!</p>
-        <p>이어서 웹사이트의 다양한 정보나 기능을 추가할 수 있습니다.</p>
-    </div>
+    <!-- 이벤트 소개 섹션 -->
+    <section id="about" class="event-intro section-padding">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 text-center mb-4 mb-lg-0">
+                    <img src="https://via.placeholder.com/500x300/6A5ACD/FFFFFF?text=Traffic+Fan+Gathering" alt="교통덕후 행사" class="img-fluid rounded shadow">
+                </div>
+                <div class="col-lg-6">
+                    <h2 class="mb-3 fw-bold">교통덕후들을 위한 지상 최대의 축제!</h2>
+                    <p class="lead">
+                        '교통-DAY'는 교통에 대한 깊은 열정과 지식을 가진 모든 덕후들을 위해 마련된 특별한 행사입니다. 
+                        같은 관심사를 가진 사람들과 교류하며, 새로운 정보를 얻고, 잊지 못할 추억을 만들어갈 수 있어요.
+                    </p>
+                    <p>
+                        최신 교통 기술 동향부터 역사적인 교통수단의 이야기까지, 
+                        다채로운 프로그램들이 여러분을 기다립니다. 
+                        교통의 세계에 푹 빠져들 준비되셨나요?
+                    </p>
+                    <a href="about.html" class="btn btn-outline-primary mt-3">더 자세히 알아보기 <i class="bi bi-arrow-right"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
 
-    <!-- 부트스트랩 JS 링크 (</body> 태그 직전에 위치하는 것이 좋아요!) -->
+    <!-- 주요 프로그램 섹션 -->
+    <section id="program" class="section-padding">
+        <div class="container">
+            <h2 class="text-center mb-5 fw-bold">주요 프로그램</h2>
+            <div class="row text-center">
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100 program-card">
+                        <div class="card-body">
+                            <i class="bi bi-train-front card-icon"></i>
+                            <h5 class="card-title fw-bold">철도 시뮬레이터 체험</h5>
+                            <p class="card-text">기관사가 되어 실제와 같은 열차 운행을 경험해보세요!</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100 program-card">
+                        <div class="card-body">
+                            <i class="bi bi-bus-front card-icon"></i>
+                            <h5 class="card-title fw-bold">버스 모델 전시회</h5>
+                            <p class="card-text">희귀한 버스 모델부터 최신형 전기 버스까지 한눈에!</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100 program-card">
+                        <div class="card-body">
+                            <i class="bi bi-geo-alt card-icon"></i>
+                            <h5 class="card-title fw-bold">교통 덕후 강연 및 토크</h5>
+                            <p class="card-text">전문가와 유명 덕후들의 흥미진진한 강연과 대화의 시간.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center mt-4">
+                <a href="#" class="btn btn-info btn-lg">모든 프로그램 확인하기</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 참여 안내 (CTA) 섹션 -->
+    <section class="cta-section">
+        <div class="container">
+            <h2>지금 바로 교통-DAY에 참여하세요!</h2>
+            <p>교통을 사랑하는 당신에게 잊지 못할 경험을 선사할 거예요.</p>
+            <a href="login_signup.html?tab=register" class="btn btn-light btn-lg mt-3">무료 회원가입 및 예약 <i class="bi bi-chevron-right"></i></a>
+        </div>
+    </section>
+
+    <!-- 푸터 -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 교통-DAY. All rights reserved.</p>
+            <p>
+                <a href="#">이용약관</a> | 
+                <a href="#">개인정보처리방침</a> | 
+                <a href="#">문의하기</a>
+            </p>
+        </div>
+    </footer>
+
+    <!-- 부트스트랩 JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 로그인 상태 확인 및 버튼 업데이트
+            updateAuthButtons();
+
+            // 로그아웃 버튼 클릭 이벤트
+            // 'authButtons' div 내에 있는 'logoutBtn'에 이벤트 리스너를 직접 연결
+            const logoutBtnElement = document.getElementById('logoutBtn');
+            if (logoutBtnElement) { // 버튼이 존재할 경우에만 이벤트 리스너 추가
+                logoutBtnElement.addEventListener('click', function() {
+                    localStorage.removeItem('loggedInUserId'); // 로컬 스토리지에서 사용자 ID 제거
+                    localStorage.removeItem('loggedInUserNickname'); // 닉네임도 지워줘요.
+                    localStorage.removeItem('loggedInUserAdminStatus'); // 관리자 상태도 지워줘요.
+                    alert('로그아웃 되었습니다.');
+                    updateAuthButtons(); // 버튼 상태 업데이트
+                    location.reload(); // 페이지 새로고침
+                });
+            }
+
+            // 로그인/회원가입/마이페이지 버튼 이벤트
+            document.getElementById('loginBtn').addEventListener('click', function() {
+                window.location.href = 'login_signup.html';
+            });
+            document.getElementById('signupBtn').addEventListener('click', function() {
+                window.location.href = 'login_signup.html?tab=register';
+            });
+            document.getElementById('mypageBtn').addEventListener('click', function() {
+                window.location.href = 'mypage.html';
+            });
+        });
+
+        function updateAuthButtons() {
+            const loggedInUserId = localStorage.getItem('loggedInUserId');
+            const loginBtn = document.getElementById('loginBtn');
+            const signupBtn = document.getElementById('signupBtn');
+            const mypageBtn = document.getElementById('mypageBtn');
+            const logoutBtn = document.getElementById('logoutBtn');
+
+            // 버튼 요소가 모두 있는지 확인 후 처리
+            if (loginBtn && signupBtn && mypageBtn && logoutBtn) {
+                if (loggedInUserId) { // 로그인 되어 있다면
+                    loginBtn.classList.add('d-none'); // 로그인 버튼 숨기기
+                    signupBtn.classList.add('d-none'); // 회원가입 버튼 숨기기
+                    mypageBtn.classList.remove('d-none'); // 마이페이지 버튼 보이기
+                    logoutBtn.classList.remove('d-none'); // 로그아웃 버튼 보이기
+                } else { // 로그인 되어 있지 않다면
+                    loginBtn.classList.remove('d-none'); // 로그인 버튼 보이기
+                    signupBtn.classList.remove('d-none'); // 회원가입 버튼 보이기
+                    mypageBtn.classList.add('d-none'); // 마이페이지 버튼 숨기기
+                    logoutBtn.classList.add('d-none'); // 로그아웃 버튼 숨기기
+                }
+            } else {
+                console.error("인증 관련 버튼 요소를 찾을 수 없습니다.");
+            }
+        }
+    </script>
 </body>
-
 </html>
-
-
-
-
