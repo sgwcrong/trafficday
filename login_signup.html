@@ -3,239 +3,136 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>로그인 / 회원가입</title>
-    <!-- 부트스트랩 CSS -->
+    <title>간편 조회</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <style>
-        body {
-            background-color: #f8f9fa;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-        }
-        .container {
-            max-width: 500px;
-            background: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-        h2 {
-            text-align: center;
-            margin-bottom: 30px;
-            color: #333;
-        }
-        .form-label {
-            font-weight: 500;
-        }
-        .btn-primary {
-            background-color: #007bff;
-            border-color: #007bff;
-        }
+        body { background-color: #f8f9fa; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
+        .container { max-width: 450px; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        h2 { text-align: center; margin-bottom: 30px; color: #333; }
+        .form-label { font-weight: 500; }
+        .btn-primary { background-color: #007bff; border-color: #007bff; }
     </style>
 </head>
 <body>
-    <!-- 위에 설명된 공통 스크립트 삽입 -->
-    <script>
-      // **여기에 위에서 복사한 배포된 Apps Script 웹 앱의 "/exec" URL을 붙여넣으세요!**
-      const APPS_SCRIPT_API_URL = 'https://script.google.com/macros/s/AKfycbxRhhcxyskRSUJRIB76nqZrQwUak0WIBVUdigc2yZ88MitDkjWUdlS-SiPFb4qHTnBo/exec'; 
+    <!-- 공통 스크립트 (APPS_SCRIPT_API_URL 설정 및 navigateTo, callAppsScript 함수 포함) -->
+<!-- 모든 HTML 파일의 <head> 태그 내 또는 <body> 태그 직후에 삽입될 공통 스크립트 -->
+<script>
+  // <<<--- 중요! 여기에 0단계에서 복사한 Apps Script 웹 앱의 "/exec" URL을 붙여넣으세요! ---
+  // 예: 'https://script.google.com/macros/s/AKfycbz_SomeRandomChars_xyz/exec'
+  const APPS_SCRIPT_API_URL = 'https://script.google.com/macros/s/AKfycbxE3u9aSh1N2GeOLnQ6r2zaXK3cs5Q9Kpdp7uMifC6Q-NW916S9nV9Yp54GLLrK5hEx/exec'; 
 
-      function navigateTo(page, params = '') {
-          let url = 'https://sgwcrong.github.io/trafficday/'; 
-          switch (page) {
-              case 'index': url += 'index.html'; break;
-              case 'about': url += 'about.html'; break;
-              case 'login_signup': url += 'login_signup.html'; break;
-              case 'mypage': url += 'mypage.html'; break;
-              case 'admin': url += 'admin.html'; break;
-              default: console.error('알 수 없는 페이지:', page); return;
-          }
-          if (params) { url += '?' + params; }
-          window.location.href = url;
+  // 페이지 이동 함수 (trafficday.kro.kr 도메인 기준으로 변경됨)
+  function navigateTo(page, params = '') {
+      let url = 'http://trafficday.kro.kr/'; // <<<--- 주인님의 웹사이트 기본 도메인으로 설정! (꼭 http:// 또는 https:// 포함!)
+      switch (page) {
+          case 'index':
+              url += 'index.html';
+              break;
+          case 'about': // about.html 페이지 추가 (이전에는 언급 안 됨)
+              url += 'about.html';
+              break;
+          case 'lookup': 
+              url += 'lookup.html';
+              break;
+          case 'mypage':
+              url += 'mypage.html';
+              break;
+          // 이 간소화 버전에서는 login_signup.html, admin.html은 사용하지 않습니다.
+          default:
+              console.error('클라이언트: 알 수 없는 페이지 요청 -', page);
+              return;
       }
+      if (params) {
+          url += '?' + params; 
+      }
+      window.location.href = url;
+  }
 
-      async function callAppsScript(functionName, data = {}) {
-          try {
-              const response = await fetch(APPS_SCRIPT_API_URL, {
-                  method: 'POST', headers: { 'Content-Type': 'application/json' },
-                  body: JSON.stringify({ functionName, data })
-              });
-              return await response.json();
-          } catch (error) {
-              console.error('Apps Script API 호출 중 오류 발생:', error);
-              throw new Error('서버와 통신하는 중 오류가 발생했습니다. (' + error.message + ')');
+  // Apps Script API를 호출하는 비동기 함수 (JSON 데이터 POST 방식으로 통신)
+  async function callAppsScript(functionName, data = {}) {
+      try {
+          const response = await fetch(APPS_SCRIPT_API_URL, {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json' // JSON 형태로 데이터 전송
+              },
+              // 호출할 Apps Script 함수 이름과 전달할 데이터를 JSON 문자열로 변환하여 전송
+              body: JSON.stringify({ functionName, data }) 
+          });
+          
+          // HTTP 응답 상태가 성공 (2xx)이 아니면 에러 발생
+          if (!response.ok) { 
+              const errorBody = await response.text(); 
+              console.error('클라이언트: HTTP Error response body:', errorBody);
+              throw new Error(`HTTP 통신 실패: ${response.status} ${response.statusText}. 서버 응답: ${errorBody}`);
           }
+          
+          return await response.json(); // 성공적인 응답을 JSON 형태로 파싱하여 반환
+      } catch (error) {
+          console.error('클라이언트: Apps Script API 호출 중 치명적 오류 발생:', error);
+          throw new Error('네트워크 또는 클라이언트 측 오류: ' + error.message);
       }
-      const APPS_SCRIPT_API_URL = 'https://script.google.com/macros/s/AKfycbxRhhcxyskRSUJRIB76nqZrQwUak0WIBVUdigc2yZ88MitDkjWUdlS-SiPFb4qHTnBo/exec'; // <<--- 실제 URL로 변경!
-      // navigateTo, callAppsScript 함수들...
-      function navigateTo(page, params = '') { /* ... 코드 생략 ... */ }
-      async function callAppsScript(functionName, data = {}) { /* ... 코드 생략 ... */ }
-    </script>
-    <!-- ... 기존 HTML 내용 (body, container 등) ... -->
+  }
+</script>
+
     <div class="container">
-        <ul class="nav nav-tabs mb-4" id="myTab" role="tablist">
-            <li class="nav-item" role="presentation">
-                <button class="nav-link active" id="login-tab" data-bs-toggle="tab" data-bs-target="#login" type="button" role="tab" aria-controls="login" aria-selected="true">로그인</button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link" id="register-tab" data-bs-toggle="tab" data-bs-target="#register" type="button" role="tab" aria-controls="register" aria-selected="false">회원가입</button>
-            </li>
-        </ul>
-        <div class="tab-content" id="myTabContent">
-            <!-- 로그인 탭 -->
-            <div class="tab-pane fade show active" id="login" role="tabpanel" aria-labelledby="login-tab">
-                <h2>로그인</h2>
-                <form id="loginForm">
-                    <div class="mb-3">
-                        <label for="loginId" class="form-label">아이디</label>
-                        <input type="text" class="form-control" id="loginId" name="id" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="loginPassword" class="form-label">비밀번호</label>
-                        <input type="password" class="form-control" id="loginPassword" name="password" required>
-                    </div>
-                    <button type="submit" class="btn btn-primary w-100 mb-2">로그인</button>
-                    <button type="button" class="btn btn-outline-secondary w-100" onclick="navigateTo('index')">취소</button>
-                </form>
+        <h2>정보 조회하기</h2>
+        <form id="lookupForm">
+            <div class="mb-3">
+                <label for="userId" class="form-label">아이디</label>
+                <input type="text" class="form-control" id="userId" name="userId" required>
             </div>
-        <!-- ... 기존 로그인/회원가입 탭 구조 ... -->
-        <div class="tab-pane fade show active" id="login" role="tabpanel" aria-labelledby="login-tab">
-            <h2>로그인</h2>
-            <form id="loginForm">
-                <!-- ... 로그인 폼 필드 ... -->
-                <button type="submit" class="btn btn-primary w-100 mb-2">로그인</button>
-                <button type="button" class="btn btn-outline-secondary w-100" onclick="navigateTo('index')">취소</button>
-            </form>
-        </div>
-
-            <!-- 회원가입 탭 -->
-            <div class="tab-pane fade" id="register" role="tabpanel" aria-labelledby="register-tab">
-                <h2>회원가입</h2>
-                <form id="registerForm">
-                    <div class="mb-3">
-                        <label for="name" class="form-label">이름</label>
-                        <input type="text" class="form-control" id="name" name="name" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="birthdate" class="form-label">생년월일</label>
-                        <input type="date" class="form-control" id="birthdate" name="birthdate" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="nickname" class="form-label">닉네임</label>
-                        <input type="text" class="form-control" id="nickname" name="nickname" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="regId" class="form-label">아이디</label>
-                        <input type="text" class="form-control" id="regId" name="id" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="email" class="form-label">이메일</label>
-                        <input type="email" class="form-control" id="email" name="email" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="regPassword" class="form-label">비밀번호</label>
-                        <input type="password" class="form-control" id="regPassword" name="password" required>
-                        <div class="form-text">8자 이상, 영문, 숫자, 특수문자를 포함해주세요.</div>
-                    </div>
-                    <div class="mb-3">
-                        <label for="confirmPassword" class="form-label">비밀번호 확인</label>
-                        <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="securityCode" class="form-label">보안 코드</label>
-                        <input type="text" class="form-control" id="securityCode" name="securityCode" required>
-                        <div class="form-text">재설정 시 필요한 보안 질문에 대한 답변입니다.</div>
-                    </div>
-                    <button type="submit" class="btn btn-primary w-100 mb-2">회원가입</button>
-                    <button type="button" class="btn btn-outline-secondary w-100" onclick="navigateTo('index')">취소</button>
-                </form>
+            <div class="mb-3">
+                <label for="personalCode" class="form-label">개인 코드 8자리</label>
+                <input type="text" class="form-control" id="personalCode" name="personalCode" required maxlength="8">
             </div>
-        <div class="tab-pane fade" id="register" role="tabpanel" aria-labelledby="register-tab">
-            <h2>회원가입</h2>
-            <form id="registerForm">
-                <!-- ... 회원가입 폼 필드 ... -->
-                <button type="submit" class="btn btn-primary w-100 mb-2">회원가입</button>
-                <button type="button" class="btn btn-outline-secondary w-100" onclick="navigateTo('index')">취소</button>
-            </form>
-        </div>
+            <button type="submit" class="btn btn-primary w-100 mb-3">조회</button>
+            <button type="button" class="btn btn-outline-secondary w-100" onclick="navigateTo('index')">취소</button>
+        </form>
     </div>
 
-    <!-- 부트스트랩 JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // URL 파라미터 확인 (예: ?tab=register)
-            const urlParams = new URLSearchParams(window.location.search);
-            if (urlParams.get('tab') === 'register') {
-                const registerTab = new bootstrap.Tab(document.getElementById('register-tab'));
-                registerTab.show();
+            // 이전에 조회한 정보가 있다면 미리 채워넣기 (선택 사항)
+            const lastUserId = localStorage.getItem('userLookupId');
+            const lastPersonalCode = localStorage.getItem('userLookupPersonalCode');
+            if (lastUserId) {
+                document.getElementById('userId').value = lastUserId;
+            }
+            if (lastPersonalCode) {
+                document.getElementById('personalCode').value = lastPersonalCode;
             }
         });
 
-        // 회원가입 폼 제출 이벤트 리스너
-        document.getElementById('registerForm').addEventListener('submit', async function(e) { 
+        document.getElementById('lookupForm').addEventListener('submit', async function(e) {
             e.preventDefault();
 
-            const password = document.getElementById('regPassword').value;
-            const confirmPassword = document.getElementById('confirmPassword').value;
+            const userId = document.getElementById('userId').value.trim();
+            const personalCode = document.getElementById('personalCode').value.trim();
 
-            if (password !== confirmPassword) {
-                alert('비밀번호가 일치하지 않습니다!');
+            if (!userId || !personalCode) {
+                alert('아이디와 개인 코드 8자리를 모두 입력해주세요.');
                 return;
             }
 
-            const formData = {
-                name: document.getElementById('name').value,
-                birthdate: document.getElementById('birthdate').value,
-                nickname: document.getElementById('nickname').value,
-                id: document.getElementById('regId').value,
-                email: document.getElementById('email').value,
-                password: password, 
-                securityCode: document.getElementById('securityCode').value
-            };
-
             try {
-                const response = await callAppsScript('processRegister', formData);
-                // Apps Script의 processRegister 함수 호출
-                const response = await callAppsScript('processRegister', formData); // callAppsScript로 호출 방식 변경
+                // Apps Script의 lookupUserData 함수 호출
+                const response = await callAppsScript('lookupUserData', { userId: userId, personalCode: personalCode });
 
                 if (response.success) {
-                    alert(response.message + ' 환영합니다, ' + response.id + '님!');
-                    const loginTab = new bootstrap.Tab(document.getElementById('login-tab'));
-                    loginTab.show(); 
-                    document.getElementById('registerForm').reset();
+                    alert('정보를 성공적으로 조회했습니다!');
+                    // 조회된 정보를 localStorage에 저장 (MyPage에서 사용할 수 있도록)
+                    localStorage.setItem('userLookedUp', 'yes');
+                    localStorage.setItem('userLookupId', userId);
+                    localStorage.setItem('userLookupPersonalCode', personalCode);
+                    localStorage.setItem('userLookupName', response.user.name);
+                    localStorage.setItem('userLookupPoints', response.user.points);
+                    localStorage.setItem('userLookupCoins', response.user.coins);
+                    
+                    navigateTo('mypage'); // 마이페이지로 이동
                 } else {
-                    alert('회원가입 실패: ' + response.message);
-                }
-            } catch (error) {
-                alert('서버 통신 오류 발생: ' + error.message);
-            }
-        });
-
-        // 로그인 폼 제출 이벤트 리스너
-        document.getElementById('loginForm').addEventListener('submit', async function(e) { 
-            e.preventDefault();
-
-            const formData = {
-                id: document.getElementById('loginId').value,
-                password: document.getElementById('loginPassword').value
-            };
-
-            try {
-                const response = await callAppsScript('processLogin', formData);
-                // Apps Script의 processLogin 함수 호출
-                const response = await callAppsScript('processLogin', formData); // callAppsScript로 호출 방식 변경
-
-                if (response.success) {
-                    alert(response.message + ' 안녕하세요, ' + response.user.nickname + '님!');
-                    localStorage.setItem('loggedInUserId', response.user.id);
-                    localStorage.setItem('loggedInUserNickname', response.user.nickname);
-                    localStorage.setItem('loggedInUserAdminStatus', response.user.adminStatus);
-                    navigateTo('index'); 
-                } else {
-                    alert('로그인 실패: ' + response.message);
+                    alert('조회 실패: ' + response.message);
                 }
             } catch (error) {
                 alert('서버 통신 오류 발생: ' + error.message);
