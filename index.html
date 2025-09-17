@@ -1,8 +1,111 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <!-- ... 기존 head 내용 ... -->
-</head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>교통-DAY: 교통덕후들을 위한 행사</title>
+    <!-- 부트스트랩 CSS 링크 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <!-- Bootstrap Icons (아이콘 사용을 위해 추가) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- 커스텀 CSS (기존 스타일 유지 및 행사 분위기 추가) -->
+    <style>
+        /* 히어로 섹션 스타일 */
+        .hero-section {
+            /* 교통-DAY 분위기에 맞게 배경 이미지를 교통 관련 이미지로 변경해주세요! */
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('https://via.placeholder.com/1920x1080/4682B4/FFFFFF?text=Traffic-DAY+Event') no-repeat center center;
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 120px 0; /* 패딩 좀 더 늘려서 웅장하게 */
+            text-align: center;
+        }
+        .hero-section h1 {
+            font-size: 4.5rem; /* 제목 크게 */
+            margin-bottom: 25px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.7); /* 제목 그림자 */
+        }
+        .hero-section p {
+            font-size: 1.5rem; /* 문구도 크게 */
+            margin-bottom: 50px;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+        }
+        .hero-section .btn {
+            font-size: 1.8rem; /* 버튼 더 크게 */
+            padding: 18px 35px;
+            border-radius: 50px;
+            transition: all 0.3s ease; /* 호버 효과 */
+        }
+        .hero-section .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        /* 공통 섹션 패딩 */
+        .section-padding {
+            padding: 80px 0;
+        }
+        /* 이벤트 소개 섹션 */
+        .event-intro {
+            background-color: #f8f9fa;
+        }
+        /* 주요 프로그램 섹션 */
+        .program-card {
+            border: none;
+            box-shadow: 0 0 20px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+        }
+        .program-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 25px rgba(0,0,0,0.1);
+        }
+        .program-card .card-icon {
+            font-size: 3rem;
+            color: #007bff;
+            margin-bottom: 15px;
+        }
+        /* 참여 안내 섹션 */
+        .cta-section {
+            background-color: #007bff;
+            color: white;
+            padding: 100px 0;
+            text-align: center;
+        }
+        .cta-section h2 {
+            font-size: 3rem;
+            margin-bottom: 30px;
+        }
+        .cta-section .btn {
+            font-size: 1.5rem;
+            padding: 15px 40px;
+            border-radius: 30px;
+            background-color: white;
+            color: #007bff;
+            border: none;
+        }
+        .cta-section .btn:hover {
+            background-color: #e2e6ea;
+        }
+
+        /* 푸터 */
+        footer {
+            padding: 40px 0;
+            background-color: #343a40;
+            color: #adb5bd;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+        footer a {
+            color: #adb5bd;
+            text-decoration: none;
+        }
+        footer a:hover {
+            color: white;
+        }
+    </style></head>
 <body>
     <!-- 깃허브 코드 내용에서 최대한 바꾸지 않기 위해, 스크립트 위치만 옮겼습니다 -->
     <script>
@@ -230,3 +333,4 @@
     </script>
 </body>
 </html>
+
