@@ -8,7 +8,7 @@
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; background-color: #e0f7fa; margin: 0; }
         .container { background-color: #ffffff; padding: 40px; border-radius: 12px; box-shadow: 0 6px 20px rgba(0,0,0,0.1); width: 100%; max-width: 450px; text-align: center; }
         h1 { color: #00796b; margin-bottom: 25px; font-size: 1.8em; }
-        input[type="text"], input[type="tel"], input[type="number"], input[type="password"] {
+        input[type="text"], input[type="tel"], input[type="number"] {
             width: calc(100% - 24px); padding: 14px; margin: 10px 0; border: 1px solid #b2dfdb; border-radius: 8px; box-sizing: border-box; font-size: 1.0em;
         }
         .main-button {
@@ -57,7 +57,7 @@
         <div id="registerForm" class="form-section">
             <h2>회원가입</h2>
             <input type="text" id="regNameInput" placeholder="이름을 입력하세요">
-            <input type="password" id="regPhoneInput" pattern="[0-9]{8}" maxlength="8" placeholder="비밀번호 8자리 (예: 12345678)"> <!-- 여기 id를 regPhoneInput으로 변경했어! -->
+            <input type="tel" id="regPhoneInput" pattern="[0-9]{8}" maxlength="8" placeholder="비밀번호 8자리 (예: 12345678)">
             <button class="main-button" onclick="handleRegister()">회원가입</button>
             <button class="toggle-button" onclick="showForm('loginForm')">이미 회원이신가요? 로그인</button>
         </div>
@@ -66,7 +66,7 @@
         <div id="loginForm" class="form-section">
             <h2>로그인</h2>
             <input type="text" id="loginNameInput" placeholder="이름을 입력하세요">
-            <input type="password" id="loginPhoneInput" pattern="[0-9]{8}" maxlength="8" placeholder="비밀번호 8자리 (예: 12345678)"> <!-- 여기 id를 loginPhoneInput으로 변경했어! -->
+            <input type="tel" id="loginPhoneInput" pattern="[0-9]{8}" maxlength="8" placeholder="비밀번호 8자리 (예: 12345678)">
             <button class="main-button" onclick="handleLogin()">로그인</button>
             <button class="toggle-button" onclick="showForm('registerForm')">아직 회원이 아니신가요? 회원가입</button>
         </div>
@@ -85,7 +85,7 @@
 
     <script>
         // ✅ 여기에 배포한 Google Apps Script 웹 앱의 URL을 넣어주세요!
-        const GAS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbzjz-6dz2HdFNoct4lLKQAuCyw4kb2IIHuSSAic9Cp3Yf7DKZ5p5PzMvj7Y_468ACKgQw/exec'; // 가상 URL
+        const GAS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbzjz-6dz2HdFNoct4lLKQAuCyw4kb2IIHuSSAic9Cp3Yf7DKZ5p8SL6xDDo468ACK8gQw/exec';
 
         let currentUser = null; // 현재 로그인한 사용자 정보 저장
 
@@ -107,7 +107,7 @@
 
         async function handleRegister() {
             const name = document.getElementById('regNameInput').value.trim();
-            const phone = document.getElementById('regPhoneInput').value.trim(); // 'phone' 변수는 그대로 유지돼!
+            const phone = document.getElementById('regPhoneInput').value.trim();
             const messageElement = document.getElementById('message');
             messageElement.textContent = ''; // 이전 메시지 초기화
 
@@ -145,7 +145,7 @@
 
         async function handleLogin() {
             const name = document.getElementById('loginNameInput').value.trim();
-            const phone = document.getElementById('loginPhoneInput').value.trim(); // 'phone' 변수는 그대로 유지돼!
+            const phone = document.getElementById('loginPhoneInput').value.trim();
             const messageElement = document.getElementById('message');
             
             messageElement.textContent = '';
