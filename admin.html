@@ -3,217 +3,365 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>관리자 페이지</title>
-    <!-- 부트스트랩 CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-    <!-- Bootstrap Icons -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <title>포인트/코인 관리 (관리자용)</title>
     <style>
-        body {
-            background-color: #f8f9fa;
-            min-height: 100vh;
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; display: flex; justify-content: center; align-items: flex-start; min-height: 100vh; background-color: #e0f7fa; margin: 0; padding-top: 30px; }
+        .container { background-color: #ffffff; padding: 40px; border-radius: 12px; box-shadow: 0 6px 20px rgba(0,0,0,0.1); width: 100%; max-width: 580px; text-align: center; }
+        h1 { color: #00796b; margin-bottom: 25px; font-size: 1.8em; }
+        
+        input[type="text"], input[type="tel"], input[type="number"], select {
+            width: calc(100% - 24px); padding: 14px; margin: 8px 0; border: 1px solid #b2dfdb; border-radius: 8px; box-sizing: border-box; font-size: 1.0em;
         }
-        .container {
+        .main-button {
+            background-color: #00796b; color: white; padding: 15px 25px; border: none; border-radius: 8px; cursor: pointer; font-size: 1.1em;
+            transition: background-color 0.3s ease; width: 100%; margin-top: 15px;
+        }
+        .main-button:hover { background-color: #004d40; }
+
+        #adminLoginForm, #adminPanel { display: none; } /* 초기에는 둘 다 숨김 */
+        #adminLoginForm.active, #adminPanel.active { display: block; }
+
+        #adminLoginForm h2, #adminPanel h2 { color: #00796b; margin-bottom: 20px; }
+        
+        #userInfoInputForm { margin-bottom: 25px; border-top: 1px solid #e0e0e0; padding-top: 20px; margin-top: 20px; }
+        #userDataSection {
+            margin-top: 30px; padding: 25px; background-color: #e0f7fa; border-radius: 10px;
+            text-align: left; display: none; /* 초기에는 숨김 */
+        }
+        #userDataSection h2 { color: #00796b; margin-bottom: 18px; border-bottom: 1px solid #b2dfdb; padding-bottom: 12px; font-size: 1.5em; }
+        #userDataSection p { margin: 10px 0; font-size: 1.1em; }
+        #userDataSection span { font-weight: bold; color: #004d40; }
+
+        #updateForm { margin-top: 25px; padding-top: 20px; border-top: 1px solid #b2dfdb; }
+        #updateForm h2 { color: #fbc02d; margin-bottom: 18px; font-size: 1.5em; }
+        .add-input {
+            width: calc(100% - 24px); padding: 14px; margin: 8px 0; border: 1px solid #ffeb3b; border-radius: 8px; box-sizing: border-box; font-size: 1.0em;
+        }
+        .update-button {
+            background-color: #fbc02d; color: white; padding: 15px 25px; border: none; border-radius: 8px; cursor: pointer; font-size: 1.1em;
+            transition: background-color 0.3s ease; width: 100%; margin-top: 15px;
+        }
+        .update-button:hover { background-color: #f9a825; }
+        #message { margin-top: 15px; font-weight: bold; font-size: 1.0em; }
+        #updateMessage { margin-top: 15px; font-weight: bold; font-size: 1.0em; }
+
+        #adminLogoutButton {
+            background-color: #e57373;
             margin-top: 30px;
-            background: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
-        h2 {
-            text-align: center;
-            margin-bottom: 30px;
-            color: #333;
-        }
-        .info-card {
-            background-color: #f1f7fe;
-            border-left: 5px solid #007bff;
-            padding: 15px;
-            margin-bottom: 15px;
-            border-radius: 5px;
-        }
-        .form-control[readonly] {
-            background-color: #e9ecef;
+        #adminLogoutButton:hover {
+            background-color: #d32f2f;
         }
     </style>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="index.html">주인님네 웹사이트</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link" href="index.html">홈</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="about.html">소개</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="mypage.html">마이페이지</a>
-                    </li>
-                </ul>
-                <div class="d-flex">
-                    <button id="adminBtn" class="btn btn-warning me-2 active">관리자 기능</button> <!-- 관리자 페이지에서 본인만 이 버튼 활성화 -->
-                    <button id="logoutBtn" class="btn btn-danger">로그아웃</button>
-                </div>
-            </div>
-        </div>
-    </nav>
-
     <div class="container">
-        <h2><i class="bi bi-shield-lock-fill"></i> 관리자 페이지</h2>
-        <div class="alert alert-warning" role="alert" id="adminWarning">
-            관리자만 이 페이지에 접근할 수 있습니다.
+        <h1>포인트/코인 관리 (관리자용)</h1>
+
+        <!-- 관리자 로그인 폼 (초기 화면) -->
+        <div id="adminLoginForm" class="active">
+            <h2>관리자 로그인</h2>
+            <input type="text" id="adminNameInput" placeholder="관리자 이름을 입력하세요">
+            <input type="tel" id="adminPhoneInput" pattern="[0-9]{8}" maxlength="8" placeholder="관리자 비밀번호 8자리">
+            <button class="main-button" onclick="handleAdminLogin()">로그인</button>
+            <p id="adminLoginMessage" class="message"></p>
         </div>
 
-        <div id="adminContent" class="d-none">
-            <div class="mb-3">
-                <label for="qrInput" class="form-label">사용자 QR 코드 내용 입력 (예: ID:포인트코드)</label>
-                <input type="text" class="form-control" id="qrInput" placeholder="여기에 사용자 QR 코드 내용을 입력해주세요.">
-                <button class="btn btn-info mt-2 w-100" id="loadUserInfoBtn">사용자 정보 불러오기</button>
+        <!-- 관리자 패널 (로그인 성공 후 표시) -->
+        <div id="adminPanel">
+            <p id="welcomeAdminMessage"></p>
+
+            <div id="userInfoInputForm">
+                <h2>사용자 정보 조회</h2>
+                <input type="text" id="queryNameInput" placeholder="사용자 이름을 입력하세요">
+                <input type="tel" id="queryPhoneInput" pattern="[0-9]{8}" maxlength="8" placeholder="사용자 전화번호 8자리">
+                <button class="main-button" onclick="fetchUserData()">사용자 정보 불러오기</button>
+                <p id="message"></p>
             </div>
 
-            <hr>
-            <h3><i class="bi bi-person-fill"></i> 사용자 정보</h3>
-            <div class="info-card">
-                <p><strong>아이디:</strong> <span id="displayUserId"></span></p>
-                <p><strong>닉네임:</strong> <span id="displayUserNickname"></span></p>
-                <p><strong>현재 트래픽 포인트:</strong> <span id="displayUserPoints"></span> P</p>
-                <p><strong>현재 트래픽 코인:</strong> <span id="displayUserCoins"></span> 개</p>
-                <p><strong>포인트 코드:</strong> <span id="displayUserPointCode"></span></p>
-            </div>
+            <div id="userDataSection">
+                <h2>사용자 정보</h2>
+                <p>이름: <span id="displayUserName"></span></p>
+                <p>비밀번호: <span id="displayUserPhone"></span></p>
+                <p>현재 포인트: <span id="displayUserPoints"></span></p>
+                <p>현재 코인: <span id="displayUserCoins"></span></p>
+                <p>관리자 여부: <span id="displayIsAdmin"></span></p>
 
-            <h3 class="mt-4"><i class="bi bi-pencil-square"></i> 포인트/코인 수정</h3>
-            <div class="row">
-                <div class="col-md-6 mb-3">
-                    <label for="editPoints" class="form-label">새 트래픽 포인트</label>
-                    <input type="number" class="form-control" id="editPoints" placeholder="수정할 포인트">
-                </div>
-                <div class="col-md-6 mb-3">
-                    <label for="editCoins" class="form-label">새 트래픽 코인</label>
-                    <input type="number" class="form-control" id="editCoins" placeholder="수정할 코인">
+                <div id="updateForm">
+                    <h2>포인트/코인 추가/차감 및 관리자 설정</h2>
+                    <input type="number" id="addPointsInput" class="add-input" placeholder="포인트 추가/차감할 양 (예: 100, -50)">
+                    <input type="number" id="addCoinsInput" class="add-input" placeholder="코인 추가/차감할 양 (예: 5, -2)">
+                    
+                    <select id="adminStatusSelect">
+                        <option value="">관리자 여부 선택</option>
+                        <option value="YES">YES</option>
+                        <option value="NO">NO</option>
+                    </select>
+                    
+                    <button class="update-button" onclick="updateUserStats()">정보 수정하기</button>
+                    <p id="updateMessage"></p>
                 </div>
             </div>
-            <button class="btn btn-success w-100" id="saveChangesBtn">변경사항 저장</button>
+            <button class="main-button" id="adminLogoutButton" onclick="handleAdminLogout()">로그아웃</button>
         </div>
     </div>
 
-    <!-- 부트스트랩 JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
     <script>
-        let currentUserDataForAdmin = null; // 관리자가 불러온 현재 사용자 정보
+        const GAS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbzjz-6dz2HdFNoct4lLKQAuCyw4kb2IIHuSSAic9Cp3Yf7DKZ5p8SL6xDDo468ACK8gQw/exec';
+        
+        // 현재 조회된 사용자 정보 (Scanner용)
+        let currentUserName = null;
+        let currentUserPhone = null;
+        let currentUserPoints = 0;
+        let currentUserCoins = 0;
+        let currentIsAdmin = 'NO';
 
-        // 관리자 권한 확인
-        document.addEventListener('DOMContentLoaded', function() {
-            const loggedInUserId = localStorage.getItem('loggedInUserId');
-            const adminStatus = localStorage.getItem('loggedInUserAdminStatus');
+        // 현재 로그인한 관리자 정보 (Scanner용)
+        let adminLoggedInUser = null; 
 
-            if (!loggedInUserId || adminStatus !== 'Yes') {
-                document.getElementById('adminWarning').classList.remove('d-none');
-                document.getElementById('adminContent').classList.add('d-none');
-                alert('관리자 권한이 없습니다. 메인 페이지로 이동합니다.');
-                window.location.href = 'index.html'; // 관리자 아니면 쫓아내기!
+        document.addEventListener('DOMContentLoaded', () => {
+            // 초기에는 관리자 로그인 폼만 활성화
+            document.getElementById('adminLoginForm').classList.add('active');
+            document.getElementById('adminPanel').classList.remove('active');
+        });
+
+        // 관리자 로그인 처리
+        async function handleAdminLogin() {
+            const name = document.getElementById('adminNameInput').value.trim();
+            const phone = document.getElementById('adminPhoneInput').value.trim();
+            const messageElement = document.getElementById('adminLoginMessage');
+            messageElement.textContent = '';
+
+            if (!name || !phone || phone.length !== 8 || !/^[0-9]+$/.test(phone)) {
+                messageElement.style.color = '#d32f2f';
+                messageElement.textContent = '이름과 전화번호 8자리를 정확히 입력해주세요.';
                 return;
-            } else {
-                document.getElementById('adminWarning').classList.add('d-none');
-                document.getElementById('adminContent').classList.remove('d-none');
             }
 
-            // 로그아웃 버튼 이벤트 리스너
-            document.getElementById('logoutBtn').addEventListener('click', function() {
-                localStorage.removeItem('loggedInUserId');
-                localStorage.removeItem('loggedInUserNickname');
-                localStorage.removeItem('loggedInUserAdminStatus');
-                alert('로그아웃 되었습니다.');
-                window.location.href = 'index.html'; // 홈으로 리디렉션
-            });
+            try {
+                const response = await fetch(GAS_WEB_APP_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: `action=login&name=${encodeURIComponent(name)}&phone=${encodeURIComponent(phone)}`
+                });
+                const result = await response.json();
 
-            // 사용자 정보 불러오기 버튼 클릭 이벤트
-            document.getElementById('loadUserInfoBtn').addEventListener('click', function() {
-                const qrContent = document.getElementById('qrInput').value.trim();
-                if (!qrContent) {
-                    alert('QR 코드 내용을 입력해주세요.');
-                    return;
+                if (result.status === 'success' && result.data.isAdmin === 'YES') {
+                    adminLoggedInUser = result.data; // 관리자 정보 저장
+                    messageElement.style.color = '#2e7d32';
+                    messageElement.textContent = `관리자 (${adminLoggedInUser.name})님, 환영합니다!`;
+                    
+                    // 관리자 로그인 폼 숨기고, 관리자 패널 표시
+                    document.getElementById('adminLoginForm').classList.remove('active');
+                    document.getElementById('adminPanel').classList.add('active');
+                    document.getElementById('welcomeAdminMessage').textContent = `환영합니다, ${adminLoggedInUser.name} 관리자님!`;
+
+                } else if (result.status === 'success' && result.data.isAdmin === 'NO') {
+                    messageElement.style.color = '#d32f2f';
+                    messageElement.textContent = '관리자 계정이 아닙니다. 접근 권한이 없습니다.';
+                } else {
+                    messageElement.style.color = '#d32f2f';
+                    messageElement.textContent = result.message || '로그인 실패: 사용자 정보를 확인해주세요.';
+                }
+            } catch (error) {
+                console.error('관리자 로그인 오류:', error);
+                messageElement.style.color = '#d32f2f';
+                messageElement.textContent = '오류 발생: 서버 연결에 실패했습니다. (인터넷 연결 또는 GAS URL 확인)';
+            }
+        }
+
+        // 관리자 로그아웃 처리
+        function handleAdminLogout() {
+            adminLoggedInUser = null;
+            document.getElementById('adminPanel').classList.remove('active');
+            document.getElementById('adminLoginForm').classList.add('active');
+            document.getElementById('adminLoginMessage').textContent = '로그아웃 되었습니다.';
+            document.getElementById('adminNameInput').value = '';
+            document.getElementById('adminPhoneInput').value = '';
+            document.getElementById('queryNameInput').value = ''; // 조회 폼도 초기화
+            document.getElementById('queryPhoneInput').value = '';
+            document.getElementById('message').textContent = '';
+            document.getElementById('userDataSection').style.display = 'none'; // 사용자 정보 섹션 숨김
+        }
+
+        // Apps Script에서 사용자 정보를 조회하는 함수
+        async function fetchUserData() {
+            if (!adminLoggedInUser) {
+                document.getElementById('message').style.color = '#d32f2f';
+                document.getElementById('message').textContent = '관리자 로그인 후 이용해주세요.';
+                return;
+            }
+
+            const name = document.getElementById('queryNameInput').value.trim();
+            const phone = document.getElementById('queryPhoneInput').value.trim();
+            const messageElement = document.getElementById('message');
+            const userDataSection = document.getElementById('userDataSection');
+            
+            messageElement.textContent = ''; // 메시지 초기화
+            userDataSection.style.display = 'none'; // 이전 정보 숨기기
+
+            if (!name || !phone || phone.length !== 8 || !/^[0-9]+$/.test(phone)) {
+                messageElement.style.color = '#d32f2f';
+                messageElement.textContent = '이름과 비밀번호 8자리를 숫자로 정확히 입력해주세요.';
+                return;
+            }
+
+            messageElement.style.color = '#555';
+            messageElement.textContent = '사용자 정보를 불러오는 중...';
+
+            try {
+                const response = await fetch(GAS_WEB_APP_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `action=getUserData&name=${encodeURIComponent(name)}&phone=${encodeURIComponent(phone)}`
+                });
+
+                const result = await response.json();
+
+                if (result.status === 'success' && result.data) {
+                    currentUserName = result.data.name; // 전역 변수에 이름 저장
+                    currentUserPhone = result.data.phone; // 전역 변수에 전화번호 저장
+                    currentUserPoints = result.data.points; // 전역 변수에 현재 포인트 저장
+                    currentUserCoins = result.data.coins; // 전역 변수에 현재 코인 저장
+                    currentIsAdmin = result.data.isAdmin; // ✅ 전역 변수에 관리자 여부 저장
+
+                    document.getElementById('displayUserName').textContent = result.data.name;
+                    document.getElementById('displayUserPhone').textContent = result.data.phone;
+                    document.getElementById('displayUserPoints').textContent = result.data.points;
+                    document.getElementById('displayUserCoins').textContent = result.data.coins;
+                    document.getElementById('displayIsAdmin').textContent = result.data.isAdmin; // ✅ 관리자 여부 표시
+                    userDataSection.style.display = 'block'; // 사용자 정보 섹션 표시
+
+                    messageElement.style.color = '#00796b';
+                    messageElement.textContent = `${result.data.name}님의 정보를 성공적으로 불러왔습니다.`;
+
+                    // 추가/차감 입력란 초기화
+                    document.getElementById('addPointsInput').value = '';
+                    document.getElementById('addCoinsInput').value = '';
+                    document.getElementById('adminStatusSelect').value = result.data.isAdmin; // ✅ 드롭다운에 현재 관리자 여부 설정
+
+                } else {
+                    messageElement.style.color = '#d32f2f';
+                    messageElement.textContent = result.message || '사용자 정보를 불러오는데 실패했습니다.';
                 }
 
-                const parts = qrContent.split(':');
-                if (parts.length !== 2) {
-                    alert('QR 코드 내용이 "아이디:포인트코드" 형식이 아닙니다. 확인해주세요.');
+            } catch (error) {
+                console.error('사용자 정보 조회 오류:', error);
+                messageElement.style.color = '#d32f2f';
+                messageElement.textContent = '사용자 정보를 불러오는 중 서버 오류가 발생했습니다. (인터넷 연결 또는 GAS URL 확인)';
+            }
+        }
+
+        // 포인트/코인 추가 또는 차감 후 업데이트하는 함수
+        async function updateUserStats() {
+            if (!adminLoggedInUser) {
+                document.getElementById('updateMessage').style.color = '#d32f2f';
+                document.getElementById('updateMessage').textContent = '관리자 로그인 후 이용해주세요.';
+                return;
+            }
+
+            if (!currentUserName || !currentUserPhone) {
+                document.getElementById('updateMessage').style.color = '#d32f2f';
+                document.getElementById('updateMessage').textContent = '먼저 사용자 정보를 불러와주세요.';
+                return;
+            }
+
+            const pointsToAddInput = document.getElementById('addPointsInput').value.trim();
+            const coinsToAddInput = document.getElementById('addCoinsInput').value.trim();
+            const newAdminStatus = document.getElementById('adminStatusSelect').value;
+            const updateMessageElement = document.getElementById('updateMessage');
+            updateMessageElement.textContent = ''; // 이전 메시지 초기화
+
+            let finalPoints = currentUserPoints;
+            let finalCoins = currentUserCoins;
+            let finalAdminStatusToSend = currentIsAdmin;
+
+            let hasChanged = false; // 변경사항이 있는지 확인하는 플래그
+
+            // 포인트 변경량 계산 및 적용
+            if (pointsToAddInput !== '') {
+                const pointsChange = parseInt(pointsToAddInput);
+                if (isNaN(pointsChange)) {
+                    updateMessageElement.style.color = '#d32f2f';
+                    updateMessageElement.textContent = '포인트 변경량은 유효한 숫자여야 합니다.';
                     return;
                 }
-                const targetUserId = parts[0];
+                finalPoints += pointsChange;
+                hasChanged = true;
+            }
 
-                google.script.run
-                    .withSuccessHandler(function(response) {
-                        if (response.success) {
-                            currentUserDataForAdmin = response.user; // 사용자 정보 저장
-                            document.getElementById('displayUserId').textContent = currentUserDataForAdmin.id;
-                            document.getElementById('displayUserNickname').textContent = currentUserDataForAdmin.nickname;
-                            document.getElementById('displayUserPoints').textContent = currentUserDataForAdmin.points;
-                            document.getElementById('displayUserCoins').textContent = currentUserDataForAdmin.coins;
-                            document.getElementById('displayUserPointCode').textContent = currentUserDataForAdmin.pointCode;
-
-                            // 수정 필드에 현재 값 미리 채워넣기
-                            document.getElementById('editPoints').value = currentUserDataForAdmin.points;
-                            document.getElementById('editCoins').value = currentUserDataForAdmin.coins;
-                        } else {
-                            alert('사용자 정보 로드 실패: ' + response.message);
-                            currentUserDataForAdmin = null; // 정보 초기화
-                            document.getElementById('displayUserId').textContent = '';
-                            document.getElementById('displayUserNickname').textContent = '';
-                            document.getElementById('displayUserPoints').textContent = '';
-                            document.getElementById('displayUserCoins').textContent = '';
-                            document.getElementById('displayUserPointCode').textContent = '';
-                            document.getElementById('editPoints').value = '';
-                            document.getElementById('editCoins').value = '';
-                        }
-                    })
-                    .withFailureHandler(function(error) {
-                        alert('사용자 정보 로드 중 서버 오류 발생: ' + error.message);
-                    })
-                    .getUserData(targetUserId); // Apps Script에서 getUserData 재활용
-            });
-
-            // 변경사항 저장 버튼 클릭 이벤트
-            document.getElementById('saveChangesBtn').addEventListener('click', function() {
-                if (!currentUserDataForAdmin) {
-                    alert('먼저 사용자 정보를 불러와주세요.');
+            // 코인 변경량 계산 및 적용
+            if (coinsToAddInput !== '') {
+                const coinsChange = parseInt(coinsToAddInput);
+                if (isNaN(coinsChange)) {
+                    updateMessageElement.style.color = '#d32f2f';
+                    updateMessageElement.textContent = '코인 변경량은 유효한 숫자여야 합니다.';
                     return;
                 }
+                finalCoins += coinsChange;
+                hasChanged = true;
+            }
+            
+            // 관리자 여부 변경 확인 및 적용
+            if (newAdminStatus && newAdminStatus !== currentIsAdmin) {
+                finalAdminStatusToSend = newAdminStatus;
+                hasChanged = true;
+            }
 
-                const newPoints = document.getElementById('editPoints').value;
-                const newCoins = document.getElementById('editCoins').value;
 
-                // QR 코드는 변경되지 않으므로, 이전에 불러온 QR 내용 재활용
-                const qrContentToUpdate = `${currentUserDataForAdmin.id}:${currentUserDataForAdmin.pointCode}`;
+            // 변경사항이 전혀 없을 경우
+            if (!hasChanged) {
+                updateMessageElement.style.color = '#d32f2f';
+                updateMessageElement.textContent = '변경할 내용이 없습니다.';
+                return;
+            }
 
-                const adminDataToUpdate = {
-                    qrContent: qrContentToUpdate,
-                    newPoints: newPoints ? parseInt(newPoints) : null,
-                    newCoins: newCoins ? parseInt(newCoins) : null
-                };
+            updateMessageElement.style.color = '#555';
+            updateMessageElement.textContent = '정보를 수정하는 중...';
 
-                google.script.run
-                    .withSuccessHandler(function(response) {
-                        if (response.success) {
-                            alert(response.message);
-                            // 화면 갱신
-                            document.getElementById('displayUserPoints').textContent = adminDataToUpdate.newPoints;
-                            document.getElementById('displayUserCoins').textContent = adminDataToUpdate.newCoins;
-                        } else {
-                            alert('변경사항 저장 실패: ' + response.message);
-                        }
-                    })
-                    .withFailureHandler(function(error) {
-                        alert('변경사항 저장 중 서버 오류 발생: ' + error.message);
-                    })
-                    .updatePointsAndCoins(adminDataToUpdate);
-            });
-        });
+            try {
+                const response = await fetch(GAS_WEB_APP_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `action=updateUserData&name=${encodeURIComponent(currentUserName)}&phone=${encodeURIComponent(currentUserPhone)}&newPoints=${encodeURIComponent(finalPoints)}&newCoins=${encodeURIComponent(finalCoins)}&newAdminStatus=${encodeURIComponent(finalAdminStatusToSend)}`
+                });
+
+                const result = await response.json();
+
+                if (result.status === 'success' && result.data) {
+                    // 성공적으로 업데이트되면 화면의 값도 최신 정보로 갱신
+                    currentUserPoints = result.data.points; // 전역 변수 갱신
+                    currentUserCoins = result.data.coins;   // 전역 변수 갱신
+                    currentIsAdmin = result.data.isAdmin; // 전역 변수 관리자 여부 갱신
+
+                    document.getElementById('displayUserName').textContent = result.data.name; // 이름 업데이트
+                    document.getElementById('displayUserPhone').textContent = result.data.phone; // 전화번호 업데이트
+                    document.getElementById('displayUserPoints').textContent = result.data.points;
+                    document.getElementById('displayUserCoins').textContent = result.data.coins;
+                    document.getElementById('displayIsAdmin').textContent = result.data.isAdmin;
+                    updateMessageElement.style.color = '#00796b';
+                    updateMessageElement.textContent = '사용자 정보가 성공적으로 수정되었습니다!';
+                    
+                    // 입력 필드 초기화
+                    document.getElementById('addPointsInput').value = '';
+                    document.getElementById('addCoinsInput').value = '';
+                    document.getElementById('adminStatusSelect').value = result.data.isAdmin;
+
+                } else {
+                    updateMessageElement.style.color = '#d32f2f';
+                    updateMessageElement.textContent = result.message || '정보 수정에 실패했습니다.';
+                }
+
+            } catch (error) {
+                console.error('포인트/코인 수정 오류:', error);
+                updateMessageElement.style.color = '#d32f2f';
+                updateMessageElement.textContent = '정보 수정 중 서버 오류가 발생했습니다. (인터넷 연결 또는 GAS URL 확인)';
+            }
+        }
     </script>
 </body>
 </html>
