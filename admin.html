@@ -74,7 +74,7 @@
             <div id="userInfoInputForm">
                 <h2>사용자 정보 조회</h2>
                 <input type="text" id="queryNameInput" placeholder="사용자 이름을 입력하세요">
-                <input type="tel" id="queryPhoneInput" pattern="[0-9]{8}" maxlength="8" placeholder="사용자 전화번호 8자리">
+                <input type="tel" id="queryPhoneInput" pattern="[0-9]{8}" maxlength="8" placeholder="사용자 비밀번호 8자리">
                 <button class="main-button" onclick="fetchUserData()">사용자 정보 불러오기</button>
                 <p id="message"></p>
             </div>
@@ -134,7 +134,7 @@
 
             if (!name || !phone || phone.length !== 8 || !/^[0-9]+$/.test(phone)) {
                 messageElement.style.color = '#d32f2f';
-                messageElement.textContent = '이름과 전화번호 8자리를 정확히 입력해주세요.';
+                messageElement.textContent = '이름과 비밀번호 8자리를 정확히 입력해주세요.';
                 return;
             }
 
