@@ -3,141 +3,263 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>간편 조회</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <title>포인트 멤버십</title>
     <style>
-        body { background-color: #f8f9fa; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
-        .container { max-width: 450px; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-        h2 { text-align: center; margin-bottom: 30px; color: #333; }
-        .form-label { font-weight: 500; }
-        .btn-primary { background-color: #007bff; border-color: #007bff; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; display: flex; justify-content: center; align-items: center; min-height: 100vh; background-color: #e0f7fa; margin: 0; }
+        .container { background-color: #ffffff; padding: 40px; border-radius: 12px; box-shadow: 0 6px 20px rgba(0,0,0,0.1); width: 100%; max-width: 450px; text-align: center; }
+        h1 { color: #00796b; margin-bottom: 25px; font-size: 1.8em; }
+        input[type="text"], input[type="tel"], input[type="number"] {
+            width: calc(100% - 24px); padding: 14px; margin: 10px 0; border: 1px solid #b2dfdb; border-radius: 8px; box-sizing: border-box; font-size: 1.0em;
+        }
+        .main-button {
+            background-color: #00796b; color: white; padding: 15px 25px; border: none; border-radius: 8px; cursor: pointer; font-size: 1.1em;
+            transition: background-color 0.3s ease; width: 100%; margin-top: 15px;
+        }
+        .main-button:hover { background-color: #004d40; }
+        .toggle-button {
+            background: none; border: none; color: #00796b; cursor: pointer; text-decoration: underline; margin-top: 15px; font-size: 0.95em;
+        }
+        .toggle-button:hover { color: #004d40; }
+
+        #message { margin-top: 20px; font-weight: bold; font-size: 1.0em; }
+        
+        .form-section { display: none; }
+        .form-section.active { display: block; }
+
+        #pointExchangeForm { display: none; margin-top: 30px; padding-top: 20px; border-top: 1px solid #e0e0e0;}
+        #pointExchangeForm h2 { color: #fbc02d; margin-bottom: 15px; }
+        #exchangePointsInput { width: calc(100% - 24px); margin-bottom: 10px; }
+        .exchange-button {
+            background-color: #fbc02d; color: white; padding: 12px 20px; border: none; border-radius: 8px; cursor: pointer; font-size: 1.0em;
+            transition: background-color 0.3s ease; width: 100%; max-width: 200px; margin-top: 10px;
+        }
+        .exchange-button:hover { background-color: #f9a825; }
+        #currentPointsInfo { font-weight: bold; margin-bottom: 15px; color: #00796b; }
+        #logoutButton {
+            background-color: #e57373;
+            margin-top: 20px;
+        }
+        #logoutButton:hover {
+            background-color: #d32f2f;
+        }
     </style>
 </head>
 <body>
-    <!-- 공통 스크립트 (APPS_SCRIPT_API_URL 설정 및 navigateTo, callAppsScript 함수 포함) -->
-<!-- 모든 HTML 파일의 <head> 태그 내 또는 <body> 태그 직후에 삽입될 공통 스크립트 -->
-<script>
-  // <<<--- 중요! 여기에 0단계에서 복사한 Apps Script 웹 앱의 "/exec" URL을 붙여넣으세요! ---
-  // 예: 'https://script.google.com/macros/s/AKfycbz_SomeRandomChars_xyz/exec'
-  const APPS_SCRIPT_API_URL = 'https://script.google.com/macros/s/AKfycbxE3u9aSh1N2GeOLnQ6r2zaXK3cs5Q9Kpdp7uMifC6Q-NW916S9nV9Yp54GLLrK5hEx/exec'; 
-
-  // 페이지 이동 함수 (trafficday.kro.kr 도메인 기준으로 변경됨)
-  function navigateTo(page, params = '') {
-      let url = 'http://trafficday.kro.kr/'; // <<<--- 주인님의 웹사이트 기본 도메인으로 설정! (꼭 http:// 또는 https:// 포함!)
-      switch (page) {
-          case 'index':
-              url += 'index.html';
-              break;
-          case 'about': // about.html 페이지 추가 (이전에는 언급 안 됨)
-              url += 'about.html';
-              break;
-          case 'lookup': 
-              url += 'lookup.html';
-              break;
-          case 'mypage':
-              url += 'mypage.html';
-              break;
-          // 이 간소화 버전에서는 login_signup.html, admin.html은 사용하지 않습니다.
-          default:
-              console.error('클라이언트: 알 수 없는 페이지 요청 -', page);
-              return;
-      }
-      if (params) {
-          url += '?' + params; 
-      }
-      window.location.href = url;
-  }
-
-  // Apps Script API를 호출하는 비동기 함수 (JSON 데이터 POST 방식으로 통신)
-  async function callAppsScript(functionName, data = {}) {
-      try {
-          const response = await fetch(APPS_SCRIPT_API_URL, {
-              method: 'POST',
-              headers: {
-                  'Content-Type': 'application/json' // JSON 형태로 데이터 전송
-              },
-              // 호출할 Apps Script 함수 이름과 전달할 데이터를 JSON 문자열로 변환하여 전송
-              body: JSON.stringify({ functionName, data }) 
-          });
-          
-          // HTTP 응답 상태가 성공 (2xx)이 아니면 에러 발생
-          if (!response.ok) { 
-              const errorBody = await response.text(); 
-              console.error('클라이언트: HTTP Error response body:', errorBody);
-              throw new Error(`HTTP 통신 실패: ${response.status} ${response.statusText}. 서버 응답: ${errorBody}`);
-          }
-          
-          return await response.json(); // 성공적인 응답을 JSON 형태로 파싱하여 반환
-      } catch (error) {
-          console.error('클라이언트: Apps Script API 호출 중 치명적 오류 발생:', error);
-          throw new Error('네트워크 또는 클라이언트 측 오류: ' + error.message);
-      }
-  }
-</script>
-
     <div class="container">
-        <h2>정보 조회하기</h2>
-        <form id="lookupForm">
-            <div class="mb-3">
-                <label for="userId" class="form-label">아이디</label>
-                <input type="text" class="form-control" id="userId" name="userId" required>
-            </div>
-            <div class="mb-3">
-                <label for="personalCode" class="form-label">개인 코드 8자리</label>
-                <input type="text" class="form-control" id="personalCode" name="personalCode" required maxlength="8">
-            </div>
-            <button type="submit" class="btn btn-primary w-100 mb-3">조회</button>
-            <button type="button" class="btn btn-outline-secondary w-100" onclick="navigateTo('index')">취소</button>
-        </form>
+        <h1>포인트 멤버십</h1>
+
+        <div id="mainToggleButtons">
+            <button class="main-button" onclick="showForm('registerForm')">회원가입</button>
+            <button class="main-button" onclick="showForm('loginForm')">로그인</button>
+        </div>
+
+        <!-- 회원가입 폼 -->
+        <div id="registerForm" class="form-section">
+            <h2>회원가입</h2>
+            <input type="text" id="regNameInput" placeholder="이름을 입력하세요">
+            <input type="tel" id="regPhoneInput" pattern="[0-9]{8}" maxlength="8" placeholder="비밀번호 8자리 (예: 12345678)">
+            <button class="main-button" onclick="handleRegister()">회원가입</button>
+            <button class="toggle-button" onclick="showForm('loginForm')">이미 회원이신가요? 로그인</button>
+        </div>
+
+        <!-- 로그인 폼 -->
+        <div id="loginForm" class="form-section">
+            <h2>로그인</h2>
+            <input type="text" id="loginNameInput" placeholder="이름을 입력하세요">
+            <input type="tel" id="loginPhoneInput" pattern="[0-9]{8}" maxlength="8" placeholder="비밀번호 8자리 (예: 12345678)">
+            <button class="main-button" onclick="handleLogin()">로그인</button>
+            <button class="toggle-button" onclick="showForm('registerForm')">아직 회원이 아니신가요? 회원가입</button>
+        </div>
+
+        <p id="message"></p>
+
+        <!-- 포인트 교환 기능 섹션 -->
+        <div id="pointExchangeForm">
+            <h2>포인트 코인 교환</h2>
+            <p id="currentPointsInfo"></p>
+            <input type="number" id="exchangePointsInput" placeholder="교환할 포인트 (최소 5000, 50단위)">
+            <button class="exchange-button" onclick="exchangePoints()">포인트 교환하기 (50P = 1C)</button>
+            <button class="main-button" id="logoutButton" onclick="handleLogout()">로그아웃</button>
+        </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // 이전에 조회한 정보가 있다면 미리 채워넣기 (선택 사항)
-            const lastUserId = localStorage.getItem('userLookupId');
-            const lastPersonalCode = localStorage.getItem('userLookupPersonalCode');
-            if (lastUserId) {
-                document.getElementById('userId').value = lastUserId;
-            }
-            if (lastPersonalCode) {
-                document.getElementById('personalCode').value = lastPersonalCode;
-            }
+        // ✅ 여기에 배포한 Google Apps Script 웹 앱의 URL을 넣어주세요!
+        const GAS_WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbzjz-6dz2HdFNoct4lLKQAuCyw4kb2IIHuSSAic9Cp3Yf7DKZ5p8SL6xDDo468ACK8gQw/exec';
+
+        let currentUser = null; // 현재 로그인한 사용자 정보 저장
+
+        // 초기 로드 시 메인 토글 버튼 보여주기
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('mainToggleButtons').style.display = 'block';
         });
 
-        document.getElementById('lookupForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
+        // 폼 전환 함수
+        function showForm(formId) {
+            document.querySelectorAll('.form-section').forEach(form => {
+                form.classList.remove('active');
+            });
+            document.getElementById('mainToggleButtons').style.display = 'none';
+            document.getElementById('pointExchangeForm').style.display = 'none'; // 교환 폼 숨기기
+            document.getElementById('message').textContent = ''; // 메시지 초기화
+            document.getElementById(formId).classList.add('active');
+        }
 
-            const userId = document.getElementById('userId').value.trim();
-            const personalCode = document.getElementById('personalCode').value.trim();
+        async function handleRegister() {
+            const name = document.getElementById('regNameInput').value.trim();
+            const phone = document.getElementById('regPhoneInput').value.trim();
+            const messageElement = document.getElementById('message');
+            messageElement.textContent = ''; // 이전 메시지 초기화
 
-            if (!userId || !personalCode) {
-                alert('아이디와 개인 코드 8자리를 모두 입력해주세요.');
+            if (!name || !phone || phone.length !== 8 || !/^[0-9]+$/.test(phone)) {
+                messageElement.style.color = '#d32f2f'; // 빨간색 오류 메시지
+                messageElement.textContent = '이름과 비밀번호 8자리를 숫자로 정확히 입력해주세요.';
                 return;
             }
 
             try {
-                // Apps Script의 lookupUserData 함수 호출
-                const response = await callAppsScript('lookupUserData', { userId: userId, personalCode: personalCode });
+                const response = await fetch(GAS_WEB_APP_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: `action=register&name=${encodeURIComponent(name)}&phone=${encodeURIComponent(phone)}`
+                });
+                const result = await response.json();
 
-                if (response.success) {
-                    alert('정보를 성공적으로 조회했습니다!');
-                    // 조회된 정보를 localStorage에 저장 (MyPage에서 사용할 수 있도록)
-                    localStorage.setItem('userLookedUp', 'yes');
-                    localStorage.setItem('userLookupId', userId);
-                    localStorage.setItem('userLookupPersonalCode', personalCode);
-                    localStorage.setItem('userLookupName', response.user.name);
-                    localStorage.setItem('userLookupPoints', response.user.points);
-                    localStorage.setItem('userLookupCoins', response.user.coins);
-                    
-                    navigateTo('mypage'); // 마이페이지로 이동
+                if (result.status === 'success') {
+                    messageElement.style.color = '#2e7d32';
+                    messageElement.textContent = result.message;
+                    // 가입 성공 후 자동으로 로그인 폼으로 전환
+                    showForm('loginForm');
+                    document.getElementById('loginNameInput').value = name;
+                    document.getElementById('loginPhoneInput').value = phone;
                 } else {
-                    alert('조회 실패: ' + response.message);
+                    messageElement.style.color = '#d32f2f';
+                    messageElement.textContent = result.message;
                 }
             } catch (error) {
-                alert('서버 통신 오류 발생: ' + error.message);
+                console.error('회원가입 오류:', error);
+                messageElement.style.color = '#d32f2f';
+                messageElement.textContent = '오류 발생: 서버 연결에 실패했습니다. (인터넷 연결 또는 GAS URL 확인)';
             }
-        });
+        }
+
+        async function handleLogin() {
+            const name = document.getElementById('loginNameInput').value.trim();
+            const phone = document.getElementById('loginPhoneInput').value.trim();
+            const messageElement = document.getElementById('message');
+            
+            messageElement.textContent = '';
+
+            if (!name || !phone || phone.length !== 8 || !/^[0-9]+$/.test(phone)) {
+                messageElement.style.color = '#d32f2f';
+                messageElement.textContent = '이름과 비밀번호 8자리를 숫자로 정확히 입력해주세요.';
+                return;
+            }
+
+            try {
+                const response = await fetch(GAS_WEB_APP_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: `action=login&name=${encodeURIComponent(name)}&phone=${encodeURIComponent(phone)}`
+                });
+                const result = await response.json();
+
+                if (result.status === 'success') {
+                    currentUser = result.data; // 로그인 성공 시 사용자 정보 저장
+                    messageElement.style.color = '#2e7d32';
+                    // ✅ 관리자 여부 메시지 추가
+                    messageElement.textContent = result.message + ` (${currentUser.name}님 환영합니다! 당신은 관리자입니다: ${currentUser.isAdmin})`;
+                    
+                    document.getElementById('loginForm').classList.remove('active'); // 로그인 폼 숨기기
+                    displayCurrentPoints(); // 현재 포인트 정보 표시 (관리자 여부 포함)
+                    document.getElementById('pointExchangeForm').style.display = 'block'; // 포인트 교환 폼 표시
+
+                } else {
+                    messageElement.style.color = '#d32f2f';
+                    messageElement.textContent = result.message;
+                }
+            } catch (error) {
+                console.error('로그인 오류:', error);
+                messageElement.style.color = '#d32f2f';
+                messageElement.textContent = '오류 발생: 서버 연결에 실패했습니다. (인터넷 연결 또는 GAS URL 확인)';
+            }
+        }
+
+        // 현재 포인트/코인 정보 업데이트 및 표시 함수
+        function displayCurrentPoints() {
+            if (currentUser) {
+                // ✅ 관리자 여부 정보 추가
+                document.getElementById('currentPointsInfo').textContent = 
+                    `현재 보유: ${currentUser.points} 포인트 | ${currentUser.coins} 코인 | 당신은 관리자입니다: ${currentUser.isAdmin}`;
+            } else {
+                document.getElementById('currentPointsInfo').textContent = '';
+            }
+        }
+
+        // 포인트 교환 함수
+        async function exchangePoints() {
+            if (!currentUser) {
+                document.getElementById('message').style.color = '#d32f2f';
+                document.getElementById('message').textContent = '먼저 로그인 해주세요.';
+                return;
+            }
+
+            const pointsToExchangeInput = document.getElementById('exchangePointsInput');
+            const pointsToExchange = parseInt(pointsToExchangeInput.value);
+            const messageElement = document.getElementById('message');
+            messageElement.textContent = '';
+
+            if (isNaN(pointsToExchange) || pointsToExchange < 5000 || pointsToExchange % 50 !== 0) {
+                messageElement.style.color = '#d32f2f';
+                messageElement.textContent = '교환할 포인트는 5000 이상이고 50포인트 단위여야 합니다.';
+                return;
+            }
+
+            if (currentUser.points < pointsToExchange) {
+                messageElement.style.color = '#d32f2f';
+                messageElement.textContent = `포인트가 부족합니다. 현재 ${currentUser.points} 포인트.`;
+                return;
+            }
+
+            messageElement.style.color = '#555';
+            messageElement.textContent = '포인트를 교환하는 중...';
+
+            try {
+                const response = await fetch(GAS_WEB_APP_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: `action=exchangePoints&name=${encodeURIComponent(currentUser.name)}&phone=${encodeURIComponent(currentUser.phone)}&pointsToExchange=${pointsToExchange}`
+                });
+                const result = await response.json();
+
+                if (result.status === 'success') {
+                    currentUser = result.data; // 업데이트된 사용자 정보로 갱신
+                    messageElement.style.color = '#2e7d32';
+                    messageElement.textContent = result.message;
+                    pointsToExchangeInput.value = ''; // 입력란 초기화
+                    displayCurrentPoints(); // 포인트 정보 업데이트
+
+                } else {
+                    messageElement.style.color = '#d32f2f';
+                    messageElement.textContent = result.message;
+                }
+            } catch (error) {
+                console.error('포인트 교환 오류:', error);
+                messageElement.style.color = '#d32f2f';
+                messageElement.textContent = '오류 발생: 서버 연결에 실패했습니다. (인터넷 연결 또는 GAS URL 확인)';
+            }
+        }
+
+        function handleLogout() {
+            currentUser = null;
+            document.getElementById('pointExchangeForm').style.display = 'none';
+            document.getElementById('mainToggleButtons').style.display = 'block';
+            document.getElementById('message').textContent = '로그아웃 되었습니다.';
+            document.getElementById('loginNameInput').value = '';
+            document.getElementById('loginPhoneInput').value = '';
+            document.getElementById('regNameInput').value = '';
+            document.getElementById('regPhoneInput').value = '';
+        }
     </script>
 </body>
 </html>
